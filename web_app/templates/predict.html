@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisa Perubahan Garis Pantai Kelurahan Kohod, Kabupaten Tangerang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/predictStyle.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">Analisa Perubahan Garis Pantai Kelurahan Kohod, Kabupaten Tangerang</div>
+        <div class="sidebar-content">
+            <div class="sidebar">
+                <div class="sidebar-group" id="dashboard" data-url="{{ url_for('dashboard') }}">
+                    <img src="{{ url_for('static', filename='assets/dashboard.png') }}">
+                    Dashboard
+                </div>
+
+                <div class="sidebar-group" id="detail" data-url="{{ url_for('detail') }}">
+                    <img src="{{ url_for('static', filename='assets/detail.png') }}">
+                    Detail
+                </div>
+
+                <div class="sidebar-group" id="comparison" data-url="{{ url_for('comparison') }}">
+                    <img src="{{ url_for('static', filename='assets/compare.png') }}">
+                    Perbandingan Garis
+                </div>
+
+                <div class="sidebar-group" id="prediction" data-url="{{ url_for('predict', satelit='sentinel') }}">
+                    <img src="{{ url_for('static', filename='assets/prediction.png') }}">
+                    Prediksi Baru
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="side-container">
+                    <div class="button-satelit">
+                        <span id="sentinel" class="{% if satelit == 'sentinel' %}active{% endif %}">Sentinel-2</span>
+                        <span id="landsat" class="{% if satelit == 'landsat' %}active{% endif %}">Landsat-8</span>
+                    </div>
+
+                    <form class="input" method="POST">
+                        <label>
+                            Tanggal Awal:
+                            <input class="select-date" type="date" name="start_date" value="{{ start_date or '' }}"/>
+                        </label>
+
+                        <label>
+                            Tanggal Akhir:
+                            <input class="select-date" type="date" name="end_date" value="{{ end_date or '' }}"/>
+                        </label>
+
+                        <button class="submit">
+                            Submit
+                        </button>
+                    </form>
+                    {% if error %}
+                    <p style="color: red;">{{ error }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="images-container {% if show_img_container != 'show' %}hidden{% endif %}">
+                    <div class="titleResult">
+                        <span class="curImage"></span>
+                        <div class="button-result">
+                            <span id="prediksi" class="active">Hasil Prediksi</span>
+                            <span id="garis">Garis Pantai</span>
+                        </div>
+                    </div>
+                    <div class="imgResult">
+                        <img class = "predict-img" id="prediksi_res" src="{{ url_for('static', filename='assets/custom_model/prediction.png') }}" alt="Hasil Prediksi">
+                        <img class = "predict-img hidden" id="garis_pantai_res" src="{{ url_for('static', filename='assets/custom_model/coastline.png') }}" alt="Hasil Garis Pantai">
+                        <!-- <span class="curResult">gambar</span> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+/*side bar */
+document.querySelectorAll('.sidebar-group').forEach(item => {
+    item.addEventListener('click', () => {
+        const url = item.getAttribute('data-url');
+        window.location.href = url;
+    });
+});
+
+/*update url*/
+function updateURL(satelit) {
+    window.location.href = `/predict/${satelit}`;
+}
+    
+// === Dropdown Universal ===
+document.querySelectorAll(".select-menu").forEach(menu => {
+
+    const selectBtn = menu.querySelector(".select-btn");
+    const sBtn_text = menu.querySelector(".sBtn-text");
+    const options = menu.querySelectorAll(".option");
+
+    selectBtn.addEventListener("click", () => {
+        menu.classList.toggle("active");
+    });
+
+    options.forEach(option => {
+        option.addEventListener("click", () => {
+            const text = option.querySelector(".option-text");
+            sBtn_text.innerText = text.innerText;
+            menu.classList.remove("active");
+        });
+    });
+});
+
+function setDefaultSentinel() {
+    document.getElementById("sentinel").classList.add("active");
+    document.getElementById("landsat").classList.remove("active");
+    document.querySelector(".curImage").innerText = "Hasil Prediksi Sentinel-2";
+    document.querySelector(".images-container").classList.add("hidden");
+    updateDateRange();
+}
+
+function updateDateRange() {
+    const isSentinel = sentinelBtn.classList.contains("active");
+
+    let minDate, maxDate;
+    if (isSentinel) {
+        // Sentinel-2 (2019–2024)
+        minDate = "2019-01-01";
+        maxDate = "2024-12-31";
+    } else {
+        // Landsat-8 (2013–2018)
+        minDate = "2013-01-01";
+        maxDate = "2018-12-31";
+    }
+    dateInputs.forEach(input => {
+        input.min = minDate;
+        input.max = maxDate;
+        // Jika tanggal sebelumnya berada di luar rentang -> hapus
+        if (input.value) {
+            if (input.value < minDate || input.value > maxDate) {
+                input.value = "";
+            }
+        }
+    });
+}
+
+// === Satelit Button ===
+const sentinelBtn = document.getElementById("sentinel");
+const landsatBtn = document.getElementById("landsat");
+const curImage = document.querySelector(".curImage");
+const dateInputs = document.querySelectorAll(".select-date");
+
+// setDefaultSentinel();
+sentinelBtn.addEventListener("click", () => {
+    sentinelBtn.classList.add("active");
+    landsatBtn.classList.remove("active");
+    curImage.innerText = "Hasil Prediksi Sentinel-2";
+    document.querySelector(".images-container").classList.add("hidden");
+    updateURL('sentinel');
+    updateDateRange();
+});
+
+landsatBtn.addEventListener("click", () => {
+    landsatBtn.classList.add("active");
+    sentinelBtn.classList.remove("active");
+    curImage.innerText = "Hasil Prediksi Landsat-8";
+    document.querySelector(".images-container").classList.add("hidden");
+    updateURL('landsat');
+    updateDateRange();
+});
+
+// === Result Button ===
+const prediksiBtn = document.getElementById("prediksi");
+const garisBtn = document.getElementById("garis");
+const curResult = document.querySelector(".curResult");
+const imgPrediksi = document.getElementById('prediksi_res');
+const imgGarisPantai = document.getElementById('garis_pantai_res');
+
+function setDefaultPrediksi() {
+    document.getElementById("prediksi").classList.add("active");
+    document.getElementById("garis").classList.remove("active");
+    imgGarisPantai.classList.add("hidden");
+    imgPrediksi.classList.remove("hidden");
+}
+
+setDefaultPrediksi();
+prediksiBtn.addEventListener("click", () => {
+    prediksiBtn.classList.add("active");
+    garisBtn.classList.remove("active");
+    imgGarisPantai.classList.add("hidden");
+    imgPrediksi.classList.remove("hidden");
+});
+
+garisBtn.addEventListener("click", () => {
+    garisBtn.classList.add("active");
+    prediksiBtn.classList.remove("active");
+    imgGarisPantai.classList.remove("hidden");
+    imgPrediksi.classList.add("hidden");
+});
+
+// === Submit behavior ===
+// document.querySelector(".submit").addEventListener("click", function (e) {
+
+//     // === Tampilkan bagian yang tersembunyi ===
+//     document.querySelector(".images-container").classList.remove("hidden");
+    
+//     // === Set Default State (Mean) ===
+//     setDefaultPrediksi();
+// });
+</script>

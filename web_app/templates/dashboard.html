@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisa Perubahan Garis Pantai Kelurahan Kohod, Kabupaten Tangerang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/dashboardStyle.css') }}">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">Analisa Perubahan Garis Pantai Kelurahan Kohod, Kabupaten Tangerang</div>
+        <div class="sidebar-content">
+            <div class="sidebar">
+                <div class="sidebar-group" id="dashboard" data-url="{{ url_for('dashboard') }}">
+                    <img src="{{ url_for('static', filename='assets/dashboard.png') }}">
+                    Dashboard
+                </div>
+
+                <div class="sidebar-group" id="detail" data-url="{{ url_for('detail') }}">
+                    <img src="{{ url_for('static', filename='assets/detail.png') }}">
+                    Detail
+                </div>
+
+                <div class="sidebar-group" id="comparison" data-url="{{ url_for('comparison') }}">
+                    <img src="{{ url_for('static', filename='assets/compare.png') }}">
+                    Perbandingan Garis
+                </div>
+
+                <div class="sidebar-group" id="prediction" data-url="{{ url_for('predict', satelit='sentinel') }}">
+                    <img src="{{ url_for('static', filename='assets/prediction.png') }}">
+                    Prediksi Baru
+                </div>
+
+            </div>
+
+            <div class="main-content">
+                <div class="content-title">
+                    Tampilan Garis Pengamatan
+                </div>
+
+                <div class="pilih-garis">
+                    <div class="garis-group" id="garis-2">2 Garis</div>
+                    <div class="garis-group" id="garis-4">4 Garis</div>
+                    <div class="garis-group" id="garis-6">6 Garis</div>
+                    <div class="garis-group" id="garis-best">Garis Terbaik</div>
+                </div>
+
+                <div class="img-garis">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    /*side bar*/
+    document.querySelectorAll('.sidebar-group').forEach(item => {
+        item.addEventListener('click', () => {
+            const url = item.getAttribute('data-url');
+            window.location.href = url;
+        });
+    });
+
+    const garisGroups = document.querySelectorAll('.garis-group');
+    const imgContainer = document.querySelector('.img-garis');
+    garisGroups.forEach(g => {
+        g.addEventListener('click', () => {
+            garisGroups.forEach(el => el.classList.remove('active'));
+            g.classList.add('active');
+
+            let imgSrc = '';
+            if (g.id === 'garis-2') {
+                imgSrc = '{{ url_for("static", filename="assets/coastlines/coastline_combined_2.png") }}';
+            } else if (g.id === 'garis-4') {
+                imgSrc = '{{ url_for("static", filename="assets/coastlines/coastline_combined_4.png") }}';
+            } else if (g.id === 'garis-6') {
+                imgSrc = '{{ url_for("static", filename="assets/coastlines/coastline_combined_6.png") }}';
+            } else if (g.id === 'garis-best') {
+                imgSrc = '{{ url_for("static", filename="assets/coastlines/coastline_combined_best.png") }}';
+            }
+
+            imgContainer.innerHTML = `<img src="${imgSrc}" alt="${g.textContent}">`;
+        });
+    });
+
+    document.getElementById("garis-2").click();
+</script>

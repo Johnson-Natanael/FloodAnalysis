@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisa Perubahan Garis Pantai Kelurahan Kohod, Kabupaten Tangerang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/detailStyle.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">Analisa Perubahan Garis Pantai Kelurahan Kohod, Kabupaten Tangerang</div>
+        <div class="sidebar-content">
+            <div class="sidebar">
+                <div class="sidebar-group" id="dashboard" data-url="{{ url_for('dashboard') }}">
+                    <img src="{{ url_for('static', filename='assets/dashboard.png') }}">
+                    Dashboard
+                </div>
+
+                <div class="sidebar-group" id="detail" data-url="{{ url_for('detail') }}">
+                    <img src="{{ url_for('static', filename='assets/detail.png') }}">
+                    Detail
+                </div>
+
+                <div class="sidebar-group" id="comparison" data-url="{{ url_for('comparison') }}">
+                    <img src="{{ url_for('static', filename='assets/compare.png') }}">
+                    Perbandingan Garis
+                </div>
+
+                <div class="sidebar-group" id="prediction" data-url="{{ url_for('predict', satelit='sentinel') }}">
+                    <img src="{{ url_for('static', filename='assets/prediction.png') }}">
+                    Prediksi Baru
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="side-container">
+                    <div class="select-menu">
+                        <div class="select-btn">
+                            <span class="sBtn-text">Pilih Tahun</span>
+                            <i class="bx bx-chevron-down"></i>
+                        </div>
+
+                        <ul class="options">
+                            <li class="option">
+                                <span class="option-text" data-value="2013">2013</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2014">2014</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2015">2015</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2016">2016</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2017">2017</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2018">2018</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2019">2019</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2020">2020</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2021">2021</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2022">2022</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2023">2023</span>
+                            </li>
+                            <li class="option">
+                                <span class="option-text" data-value="2024">2024</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-desc">
+                        <div class="button-prediksi-garis">
+                            <span id="prediksi">Hasil Prediksi</span>
+                            <span id="garis">Garis Pantai</span>
+                        </div>
+
+                        <div class="perubahan-daerah">
+                            <span id="title-perubahan">Analisis Perubahan Daerah</span>
+
+                            {% if periodes %}
+                            {% for p in periodes %}
+                            <div class="perubahan-group">
+
+                                <!-- Periode -->
+                                <span id="periode">{{ p.startdate }} - {{ p.enddate }}</span>
+
+                                <!-- Akresi -->
+                                <div class="akresi-group">
+                                    <span>Akresi Daerah:</span>
+                                    <span>{{ p.akresi if p.akresi not in [None, ''] else '-' }} hektare</span>
+                                </div>
+
+                                <!-- Abrasi -->
+                                <div class="abrasi-group">
+                                    <span>Abrasi Daerah:</span>
+                                    <span>{{ p.abrasi if p.abrasi not in [None, ''] else '-' }} hektare</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <p style="font-style: italic; color: red;">Data tidak tersedia untuk tahun ini</p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="images-container">
+                    <span id="desc-kosong">
+                        Pilih Tahun Yang Diinginkan
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+    /*side bar */
+    document.querySelectorAll('.sidebar-group').forEach(item => {
+        item.addEventListener('click', () => {
+            const url = item.getAttribute('data-url');
+            window.location.href = url;
+        });
+    });
+
+    /*update url*/
+    function updateURL(year, status) {
+        window.location.href = `/detail/${year}/${status}`;
+    }
+
+    const optionMenu = document.querySelector(".select-menu"),
+        selectBtn = optionMenu.querySelector(".select-btn"),
+        options = optionMenu.querySelectorAll(".option"),
+        sBtn_text = optionMenu.querySelector(".sBtn-text"),
+        detail = document.querySelector(".detail-desc"),
+        desc = document.getElementById("desc-kosong"),
+        btnPrediksi = document.getElementById("prediksi"),
+        btnGaris = document.getElementById("garis"),
+        imgCon = document.querySelector(".images-container");
+    var selectedYear = null;
+    var status = "prediksi";
+    const baseImgPath = "{{ url_for('static', filename='assets/predictions/') }}";
+    const baseImgPathCoastlines = "{{ url_for('static', filename='assets/coastlines/') }}";
+
+    detail.style.display = "none";
+
+    /* --- Parse URL on page load --- */
+    const pathParts = window.location.pathname.split("/");
+    let currentYear = pathParts[2] || null;
+    let currentStatus = pathParts[3] || "prediksi";
+
+    selectedYear = currentYear;
+    status = currentStatus;
+
+    if (selectedYear) {
+        detail.style.display = "block";
+        desc.style.display = "none";
+        sBtn_text.innerText = selectedYear;
+
+        if (status == "prediksi") {
+            const imgSrc = `${baseImgPath}prediction_all_${selectedYear}.png`;
+            imgCon.innerHTML = `<span id=image-title > Hasil Prediksi Perairan Daratan Tahun ${selectedYear}</span>`;
+            imgCon.innerHTML += `<img src="${imgSrc}" id=image-pics alt="Prediksi ${selectedYear}">`;
+            imgCon.style.justifyContent = 'flex-start';
+
+            if (selectedYear == 2022) {
+                const img2022 = document.getElementById("image-pics");
+                img2022.style.width = "400px";
+            }
+        }
+
+        if (status == "garis") {
+            const imgSrc = `${baseImgPathCoastlines}coastline_year_${selectedYear}.png`;
+            imgCon.innerHTML = `<span id=image-title>Hasil Garis Pantai Tahun ${selectedYear}</span> `;
+            imgCon.innerHTML += `<img src="${imgSrc}" alt="Prediksi ${selectedYear}">`;
+            imgCon.style.justifyContent = 'flex-start';
+        }
+
+
+
+    }
+
+    if (currentStatus === "prediksi") {
+        setActive(btnPrediksi);
+    } else {
+        setActive(btnGaris);
+    }
+
+
+    /* Dropdown */
+    selectBtn.addEventListener("click", () => {
+        optionMenu.classList.toggle("active");
+    });
+
+    options.forEach(option => {
+        option.addEventListener("click", () => {
+            const optionText = option.querySelector(".option-text");
+            selectedYear = optionText.getAttribute("data-value");
+            updateURL(selectedYear, status);
+            console.log(status);
+        });
+    });
+
+    /* Buttons Prediksi & Garis */
+
+    function setActive(button) {
+        btnPrediksi.classList.remove("active");
+        btnGaris.classList.remove("active");
+        button.classList.add("active");
+    }
+
+    btnPrediksi.addEventListener("click", () => {
+        if (!selectedYear) return;
+        setActive(btnPrediksi);
+        status = "prediksi";
+        updateURL(selectedYear, status);
+    });
+
+    btnGaris.addEventListener("click", () => {
+        if (!selectedYear) return;
+        setActive(btnGaris);
+        status = "garis";
+        updateURL(selectedYear, status);
+    });
+
+
+</script>
