@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analisa Perubahan Garis Pantai Kelurahan Kohod, Kabupaten Tangerang</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <title>Analisis Area Terdampak Banjir - Bandung Raya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/predictStyle.css') }}">
 </head>
-
 <body>
     <div class="container">
-        <div class="header">Analisa Perubahan Garis Pantai Kelurahan Kohod, Kabupaten Tangerang</div>
+        <div class="header">Analisis Area Terdampak Banjir - Bandung Raya</div>
         <div class="sidebar-content">
             <div class="sidebar">
                 <div class="sidebar-group" id="dashboard" data-url="{{ url_for('dashboard') }}">
                     <img src="{{ url_for('static', filename='assets/dashboard.png') }}">
                     Dashboard
                 </div>
-
                 <div class="sidebar-group" id="detail" data-url="{{ url_for('detail') }}">
                     <img src="{{ url_for('static', filename='assets/detail.png') }}">
-                    Detail
+                    Data Historis
                 </div>
-
-                <div class="sidebar-group" id="comparison" data-url="{{ url_for('comparison') }}">
-                    <img src="{{ url_for('static', filename='assets/compare.png') }}">
-                    Perbandingan Garis
-                </div>
-
-                <div class="sidebar-group" id="prediction" data-url="{{ url_for('predict', satelit='sentinel') }}">
+                <div class="sidebar-group active" id="prediction" data-url="{{ url_for('predict') }}">
                     <img src="{{ url_for('static', filename='assets/prediction.png') }}">
                     Prediksi Baru
                 </div>
@@ -39,181 +29,100 @@
 
             <div class="main-content">
                 <div class="side-container">
-                    <div class="button-satelit">
-                        <span id="sentinel" class="{% if satelit == 'sentinel' %}active{% endif %}">Sentinel-2</span>
-                        <span id="landsat" class="{% if satelit == 'landsat' %}active{% endif %}">Landsat-8</span>
-                    </div>
-
-                    <form class="input" method="POST">
+                    
+                    <form class="input" method="POST" action="{{ url_for('predict') }}">
                         <label>
-                            Tanggal Awal:
-                            <input class="select-date" type="date" name="start_date" value="{{ start_date or '' }}"/>
+                            Pilih Lokasi Pengamatan:
+                            <select name="kecamatan" class="select-date" required style="width: 100%; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Poppins'; padding: 0 10px;">
+                                <option value="" disabled selected>-- Pilih Kecamatan --</option>
+                                <option value="BandungRaya" {% if kecamatan == 'BandungRaya' %}selected{% endif %}>BandungRaya</option>
+                                <option value="Arjasari" {% if kecamatan == 'Arjasari' %}selected{% endif %}>Arjasari</option>
+                                <option value="Baleendah" {% if kecamatan == 'Baleendah' %}selected{% endif %}>Baleendah</option>
+                                <option value="Bojongsoang" {% if kecamatan == 'Bojongsoang' %}selected{% endif %}>Bojongsoang</option>
+                                <option value="Cicaheum" {% if kecamatan == 'Cicaheum' %}selected{% endif %}>Cicaheum</option>
+                                <option value="Cilengkrang" {% if kecamatan == 'Cilengkrang' %}selected{% endif %}>Cilengkrang</option>
+                                <option value="Cileunyi" {% if kecamatan == 'Cileunyi' %}selected{% endif %}>Cileunyi</option>
+                                <option value="Dayeuhkolot" {% if kecamatan == 'Dayeuhkolot' %}selected{% endif %}>Dayeuhkolot</option>
+                                <option value="Kutawaringin" {% if kecamatan == 'Kutawaringin' %}selected{% endif %}>Kutawaringin</option>
+                                <option value="Pasteur" {% if kecamatan == 'Pasteur' %}selected{% endif %}>Pasteur</option>
+                                <option value="Rancaekek" {% if kecamatan == 'Rancaekek' %}selected{% endif %}>Rancaekek</option>
+                                <option value="Soreang" {% if kecamatan == 'Soreang' %}selected{% endif %}>Soreang</option>
+
+                            </select>
                         </label>
 
-                        <label>
-                            Tanggal Akhir:
-                            <input class="select-date" type="date" name="end_date" value="{{ end_date or '' }}"/>
+                        <label style="margin-top: 15px; display: block;">
+                            Tanggal Awal Banjir:
+                            <input class="select-date" type="date" name="start_date" value="{{ start_date or '' }}" required/>
                         </label>
 
-                        <button class="submit">
-                            Submit
+                        <label style="margin-top: 15px; display: block;">
+                            Tanggal Akhir Banjir:
+                            <input class="select-date" type="date" name="end_date" value="{{ end_date or '' }}" required/>
+                        </label>
+
+                        <button type="submit" class="submit" style="margin-top: 25px;">
+                            Eksekusi GEE
                         </button>
                     </form>
+                    
                     {% if error %}
-                    <p style="color: red;">{{ error }}</p>
+                    <p style="color: red; margin-top: 15px; font-size: 13px;">{{ error }}</p>
+                    {% endif %}
+
+                    {% if show_img_container %}
+                    <div style="margin-top: 30px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <span style="font-size: 16px; font-weight: 600; color: #333; display: block; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;">Laporan Kalkulasi Luas</span>
+                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Baseline (Sebelum):</strong> <br/>{{ pre_period }}</p>
+                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Genangan (Sesudah):</strong> <br/>{{ post_period }}</p>
+                        
+                        <p style="font-size: 13px; margin: 15px 0 0 0; font-weight: 600;">Total Luas Terdampak:</p>
+                        <h2 style="font-size: 24px; color: #0f52ba; margin: 0; padding: 0;">{{ luas_ha }} Ha</h2>
+                        <span style="font-size: 11px; color: #777;">Kalkulasi m² : {{ luas_m2 }}</span>
+                    </div>
                     {% endif %}
                 </div>
 
-                <div class="images-container {% if show_img_container != 'show' %}hidden{% endif %}">
+                <div class="images-container {% if not show_img_container %}hidden{% endif %}">
                     <div class="titleResult">
-                        <span class="curImage"></span>
-                        <div class="button-result">
-                            <span id="prediksi" class="active">Hasil Prediksi</span>
-                            <span id="garis">Garis Pantai</span>
-                        </div>
+                        <span class="curImage">Overlay Sentinel-1 (VH Grayscale) & Masker Banjir (Biru)</span>
                     </div>
                     <div class="imgResult">
-                        <img class = "predict-img" id="prediksi_res" src="{{ url_for('static', filename='assets/custom_model/prediction.png') }}" alt="Hasil Prediksi">
-                        <img class = "predict-img hidden" id="garis_pantai_res" src="{{ url_for('static', filename='assets/custom_model/coastline.png') }}" alt="Hasil Garis Pantai">
-                        <!-- <span class="curResult">gambar</span> -->
+                        {% if url_gambar %}
+                            <img class="predict-img" id="prediksi_res" src="{{ url_gambar }}" alt="Hasil Prediksi Banjir" style="max-height: 80vh; object-fit: contain;">
+                        {% else %}
+                            <img class="predict-img" id="prediksi_res" src="{{ url_for('static', filename='assets/custom_model/prediction.png') }}" alt="Placeholder Banjir">
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-</body>
-
-</html>
-
-<script>
-/*side bar */
-document.querySelectorAll('.sidebar-group').forEach(item => {
-    item.addEventListener('click', () => {
-        const url = item.getAttribute('data-url');
-        window.location.href = url;
-    });
-});
-
-/*update url*/
-function updateURL(satelit) {
-    window.location.href = `/predict/${satelit}`;
-}
-    
-// === Dropdown Universal ===
-document.querySelectorAll(".select-menu").forEach(menu => {
-
-    const selectBtn = menu.querySelector(".select-btn");
-    const sBtn_text = menu.querySelector(".sBtn-text");
-    const options = menu.querySelectorAll(".option");
-
-    selectBtn.addEventListener("click", () => {
-        menu.classList.toggle("active");
-    });
-
-    options.forEach(option => {
-        option.addEventListener("click", () => {
-            const text = option.querySelector(".option-text");
-            sBtn_text.innerText = text.innerText;
-            menu.classList.remove("active");
+    <script>
+    /* Side Bar Navigasi */
+    document.querySelectorAll('.sidebar-group').forEach(item => {
+        item.addEventListener('click', () => {
+            const url = item.getAttribute('data-url');
+            if (url) {
+                window.location.href = url;
+            }
         });
     });
-});
 
-function setDefaultSentinel() {
-    document.getElementById("sentinel").classList.add("active");
-    document.getElementById("landsat").classList.remove("active");
-    document.querySelector(".curImage").innerText = "Hasil Prediksi Sentinel-2";
-    document.querySelector(".images-container").classList.add("hidden");
-    updateDateRange();
-}
+    /* Konfigurasi Input Rentang Waktu (Sentinel-1 diluncurkan April 2014) */
+    window.addEventListener("DOMContentLoaded", () => {
+        const dateInputs = document.querySelectorAll(".select-date[type='date']");
+        const minDate = "2014-10-01"; // Citra Sentinel-1 mulai diakses publik secara stabil akhir 2014
+        
+        let today = new Date();
+        let maxDate = today.toISOString().split('T')[0];
 
-function updateDateRange() {
-    const isSentinel = sentinelBtn.classList.contains("active");
-
-    let minDate, maxDate;
-    if (isSentinel) {
-        // Sentinel-2 (2019–2024)
-        minDate = "2019-01-01";
-        maxDate = "2024-12-31";
-    } else {
-        // Landsat-8 (2013–2018)
-        minDate = "2013-01-01";
-        maxDate = "2018-12-31";
-    }
-    dateInputs.forEach(input => {
-        input.min = minDate;
-        input.max = maxDate;
-        // Jika tanggal sebelumnya berada di luar rentang -> hapus
-        if (input.value) {
-            if (input.value < minDate || input.value > maxDate) {
-                input.value = "";
-            }
-        }
+        dateInputs.forEach(input => {
+            input.min = minDate;
+            input.max = maxDate;
+        });
     });
-}
-
-// === Satelit Button ===
-const sentinelBtn = document.getElementById("sentinel");
-const landsatBtn = document.getElementById("landsat");
-const curImage = document.querySelector(".curImage");
-const dateInputs = document.querySelectorAll(".select-date");
-
-// setDefaultSentinel();
-sentinelBtn.addEventListener("click", () => {
-    sentinelBtn.classList.add("active");
-    landsatBtn.classList.remove("active");
-    curImage.innerText = "Hasil Prediksi Sentinel-2";
-    document.querySelector(".images-container").classList.add("hidden");
-    updateURL('sentinel');
-    updateDateRange();
-});
-
-landsatBtn.addEventListener("click", () => {
-    landsatBtn.classList.add("active");
-    sentinelBtn.classList.remove("active");
-    curImage.innerText = "Hasil Prediksi Landsat-8";
-    document.querySelector(".images-container").classList.add("hidden");
-    updateURL('landsat');
-    updateDateRange();
-});
-
-// === Result Button ===
-const prediksiBtn = document.getElementById("prediksi");
-const garisBtn = document.getElementById("garis");
-const curResult = document.querySelector(".curResult");
-const imgPrediksi = document.getElementById('prediksi_res');
-const imgGarisPantai = document.getElementById('garis_pantai_res');
-
-function setDefaultPrediksi() {
-    document.getElementById("prediksi").classList.add("active");
-    document.getElementById("garis").classList.remove("active");
-    imgGarisPantai.classList.add("hidden");
-    imgPrediksi.classList.remove("hidden");
-}
-
-setDefaultPrediksi();
-prediksiBtn.addEventListener("click", () => {
-    prediksiBtn.classList.add("active");
-    garisBtn.classList.remove("active");
-    imgGarisPantai.classList.add("hidden");
-    imgPrediksi.classList.remove("hidden");
-});
-
-garisBtn.addEventListener("click", () => {
-    garisBtn.classList.add("active");
-    prediksiBtn.classList.remove("active");
-    imgGarisPantai.classList.remove("hidden");
-    imgPrediksi.classList.add("hidden");
-});
-
-// === Submit behavior ===
-// document.querySelector(".submit").addEventListener("click", function (e) {
-
-//     // === Tampilkan bagian yang tersembunyi ===
-//     document.querySelector(".images-container").classList.remove("hidden");
-    
-//     // === Set Default State (Mean) ===
-//     setDefaultPrediksi();
-// });
-</script>
+    </script>
+</body>
+</html>

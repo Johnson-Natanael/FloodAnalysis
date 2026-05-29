@@ -1,95 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analisa Perubahan Garis Pantai Kelurahan Kohod, Kabupaten Tangerang</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/dashboardStyle.css') }}">
-
+    <title>Dashboard - Analisis Banjir Bandung Raya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/predictStyle.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .summary-cards {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .card h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        .card .value {
+            font-size: 28px;
+            color: #0f52ba;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        .chart-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            height: 400px;
+        }
+    </style>
 </head>
-
 <body>
     <div class="container">
-        <div class="header">Analisa Perubahan Garis Pantai Kelurahan Kohod, Kabupaten Tangerang</div>
+        <div class="header">Analisis Area Terdampak Banjir - Bandung Raya</div>
         <div class="sidebar-content">
             <div class="sidebar">
-                <div class="sidebar-group" id="dashboard" data-url="{{ url_for('dashboard') }}">
-                    <img src="{{ url_for('static', filename='assets/dashboard.png') }}">
-                    Dashboard
+                <div class="sidebar-group active" id="dashboard" data-url="{{ url_for('dashboard') }}">
+                    <img src="{{ url_for('static', filename='assets/dashboard.png') }}"> Dashboard
                 </div>
-
                 <div class="sidebar-group" id="detail" data-url="{{ url_for('detail') }}">
-                    <img src="{{ url_for('static', filename='assets/detail.png') }}">
-                    Detail
+                    <img src="{{ url_for('static', filename='assets/detail.png') }}"> Data Historis
                 </div>
-
-                <div class="sidebar-group" id="comparison" data-url="{{ url_for('comparison') }}">
-                    <img src="{{ url_for('static', filename='assets/compare.png') }}">
-                    Perbandingan Garis
+                <div class="sidebar-group" id="prediction" data-url="{{ url_for('predict') }}">
+                    <img src="{{ url_for('static', filename='assets/prediction.png') }}"> Prediksi Baru
                 </div>
-
-                <div class="sidebar-group" id="prediction" data-url="{{ url_for('predict', satelit='sentinel') }}">
-                    <img src="{{ url_for('static', filename='assets/prediction.png') }}">
-                    Prediksi Baru
-                </div>
-
             </div>
 
-            <div class="main-content">
-                <div class="content-title">
-                    Tampilan Garis Pengamatan
+            <div class="main-content" style="flex-direction: column; padding: 20px; overflow-y: auto;">
+                <div style="margin-bottom: 20px;">
+                    <h2 style="margin: 0; font-size: 22px; color: #333;">Sistem Pemantauan Genangan Banjir (Time-Series)</h2>
+                    <p style="margin: 5px 0 0 0; font-size: 14px; color: #666;">
+                        Platform ini memvisualisasikan data ekstraksi luasan banjir di Cekungan Bandung menggunakan citra Radar Sentinel-1 (Google Earth Engine).
+                    </p>
                 </div>
 
-                <div class="pilih-garis">
-                    <div class="garis-group" id="garis-2">2 Garis</div>
-                    <div class="garis-group" id="garis-4">4 Garis</div>
-                    <div class="garis-group" id="garis-6">6 Garis</div>
-                    <div class="garis-group" id="garis-best">Garis Terbaik</div>
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3>Total Kejadian Terekam</h3>
+                        <div class="value" id="card-kejadian">0</div>
+                    </div>
+                    <div class="card">
+                        <h3>Puncak Genangan Terluas</h3>
+                        <div class="value" id="card-max">0 Ha</div>
+                    </div>
+                    <div class="card">
+                        <h3>Rata-rata Genangan (Bandung Raya)</h3>
+                        <div class="value" id="card-avg">0 Ha</div>
+                    </div>
                 </div>
 
-                <div class="img-garis">
-
+                <div class="chart-container">
+                    <canvas id="trendChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Data dari Flask ke JavaScript
+        const floodData = {{ flood_data | tojson | safe }};
+
+        // Routing Navigasi
+        document.querySelectorAll('.sidebar-group').forEach(item => {
+            item.addEventListener('click', () => {
+                const url = item.getAttribute('data-url');
+                if (url) window.location.href = url;
+            });
+        });
+
+        // Logika Pengolahan Data untuk Dashboard
+        if (floodData && floodData.length > 0) {
+            
+            // 1. Update Kartu Statistik
+            document.getElementById('card-kejadian').textContent = floodData.length;
+            
+            const maxArea = Math.max(...floodData.map(d => d.luas_ha_raya));
+            const avgArea = floodData.reduce((acc, curr) => acc + curr.luas_ha_raya, 0) / floodData.length;
+            
+            document.getElementById('card-max').textContent = maxArea.toFixed(2) + " Ha";
+            document.getElementById('card-avg').textContent = avgArea.toFixed(2) + " Ha";
+
+            // 2. Agregasi Data untuk Grafik (Mencari Puncak Banjir Per Tahun)
+            const yearMap = {};
+            floodData.forEach(item => {
+                const yr = item.tahun;
+                if (!yearMap[yr]) {
+                    yearMap[yr] = item.luas_ha_raya;
+                } else {
+                    // Jika ada lebih dari satu kejadian setahun, kita plot area maksimalnya
+                    if (item.luas_ha_raya > yearMap[yr]) {
+                        yearMap[yr] = item.luas_ha_raya;
+                    }
+                }
+            });
+
+            const labels = Object.keys(yearMap).sort();
+            const dataPoints = labels.map(yr => yearMap[yr]);
+
+            // 3. Render Chart.js
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Luas Maksimal Genangan Bandung Raya (Hektar)',
+                        data: dataPoints,
+                        borderColor: '#0f52ba',
+                        backgroundColor: 'rgba(15, 82, 186, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#0f52ba',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        fill: true,
+                        tension: 0.3 // Membuat garis sedikit melengkung
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Luas Area (Ha)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Tahun Kejadian'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 </body>
-
 </html>
-
-<script>
-    /*side bar*/
-    document.querySelectorAll('.sidebar-group').forEach(item => {
-        item.addEventListener('click', () => {
-            const url = item.getAttribute('data-url');
-            window.location.href = url;
-        });
-    });
-
-    const garisGroups = document.querySelectorAll('.garis-group');
-    const imgContainer = document.querySelector('.img-garis');
-    garisGroups.forEach(g => {
-        g.addEventListener('click', () => {
-            garisGroups.forEach(el => el.classList.remove('active'));
-            g.classList.add('active');
-
-            let imgSrc = '';
-            if (g.id === 'garis-2') {
-                imgSrc = '{{ url_for("static", filename="assets/coastlines/coastline_combined_2.png") }}';
-            } else if (g.id === 'garis-4') {
-                imgSrc = '{{ url_for("static", filename="assets/coastlines/coastline_combined_4.png") }}';
-            } else if (g.id === 'garis-6') {
-                imgSrc = '{{ url_for("static", filename="assets/coastlines/coastline_combined_6.png") }}';
-            } else if (g.id === 'garis-best') {
-                imgSrc = '{{ url_for("static", filename="assets/coastlines/coastline_combined_best.png") }}';
-            }
-
-            imgContainer.innerHTML = `<img src="${imgSrc}" alt="${g.textContent}">`;
-        });
-    });
-
-    document.getElementById("garis-2").click();
-</script>
