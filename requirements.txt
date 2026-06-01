@@ -8,3 +8,4 @@ rasterio
 scipy
 scikit-image
 pandas
+geopandas

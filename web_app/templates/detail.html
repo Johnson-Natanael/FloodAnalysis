@@ -1,44 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analisis Area Terdampak Banjir - Data Historis</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/detailStyle.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/predictStyle.css') }}">
     <style>
-        .grid-3-col {
+        /* Desain Grid Baru untuk Mengakomodasi 7 Gambar */
+        .context-container {
             display: flex;
-            gap: 15px;
-            margin-top: 15px;
-            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 25px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
         }
+
+        .context-box {
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .context-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin: 20px 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #0f52ba;
+        }
+
+        .grid-3-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
         .grid-box {
-            flex: 1;
-            min-width: 250px;
             background: #fff;
             border: 1px solid #ddd;
             border-radius: 6px;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
+
         .grid-box h4 {
             margin: 0 0 10px 0;
-            font-size: 14px;
-            color: #333;
+            font-size: 13px;
+            color: #444;
             font-weight: 600;
         }
+
         .grid-box img {
             width: 100%;
-            max-height: 400px;
+            height: auto;
             border-radius: 4px;
-            object-fit: cover;
+            object-fit: contain;
             border: 1px solid #eee;
+        }
+
+        .border-highlight {
+            border: 2px solid #0f52ba !important;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">Analisis Area Terdampak Banjir - Bandung Raya</div>
@@ -48,7 +89,7 @@
                     <img src="{{ url_for('static', filename='assets/dashboard.png') }}"> Dashboard
                 </div>
                 <div class="sidebar-group active" id="detail" data-url="{{ url_for('detail') }}">
-                    <img src="{{ url_for('static', filename='assets/detail.png') }}"> Data Historis
+                    <img src="{{ url_for('static', filename='assets/detail.png') }}"> Observasi Area
                 </div>
                 <div class="sidebar-group" id="prediction" data-url="{{ url_for('predict') }}">
                     <img src="{{ url_for('static', filename='assets/prediction.png') }}"> Prediksi Baru
@@ -57,51 +98,89 @@
 
             <div class="main-content">
                 <div class="side-container" style="min-width: 300px;">
-                    <div class="input" style="padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <div class="input"
+                        style="padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                         <label style="display: block; font-weight: 500; margin-bottom: 5px;">Pilih Tahun:</label>
-                        <select id="filter-tahun" style="width: 100%; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Poppins'; padding: 0 10px; margin-bottom: 15px;">
-                            </select>
+                        <select id="filter-tahun"
+                            style="width: 100%; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Poppins'; padding: 0 10px; margin-bottom: 15px;"></select>
 
                         <label style="display: block; font-weight: 500; margin-bottom: 5px;">Pilih Kejadian:</label>
-                        <select id="filter-kejadian" style="width: 100%; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Poppins'; padding: 0 10px; margin-bottom: 15px;">
-                            </select>
+                        <select id="filter-kejadian"
+                            style="width: 100%; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Poppins'; padding: 0 10px; margin-bottom: 15px;"></select>
 
                         <label style="display: block; font-weight: 500; margin-bottom: 5px;">Skala Visualisasi:</label>
-                        <select id="filter-skala" style="width: 100%; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Poppins'; padding: 0 10px;">
+                        <select id="filter-skala"
+                            style="width: 100%; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Poppins'; padding: 0 10px;">
                             <option value="fokus">Fokus Kecamatan</option>
                             <option value="raya">Keseluruhan Bandung Raya</option>
                         </select>
                     </div>
 
-                    <div style="margin-top: 20px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <span style="font-size: 16px; font-weight: 600; color: #333; display: block; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;">Statistik Area</span>
-                        <p style="font-size: 12px; margin: 5px 0;"><strong>Wilayah Tercatat:</strong> <br/><span id="stat-wilayah">-</span></p>
-                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Baseline (Sebelum):</strong> <br/><span id="stat-pre">-</span></p>
-                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Genangan (Sesudah):</strong> <br/><span id="stat-post">-</span></p>
-                        
+                    <div
+                        style="margin-top: 20px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <span
+                            style="font-size: 16px; font-weight: 600; color: #333; display: block; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;">Statistik
+                            Area</span>
+                        <p style="font-size: 12px; margin: 5px 0;"><strong>Wilayah Tercatat:</strong> <br /><span
+                                id="stat-wilayah">-</span></p>
+                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Pra-Banjir (Sebelum):</strong>
+                            <br /><span id="stat-pre">-</span>
+                        </p>
+                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Pasca-Banjir/genangan
+                                (Sesudah):</strong> <br /><span id="stat-post">-</span></p>
+
                         <p style="font-size: 13px; margin: 15px 0 0 0; font-weight: 600;">Total Luas Terdampak:</p>
                         <h2 id="stat-ha" style="font-size: 24px; color: #0f52ba; margin: 0; padding: 0;">0 Ha</h2>
                         <span id="stat-m2" style="font-size: 11px; color: #777;">Kalkulasi m² : 0</span>
+                        <p
+                            style="font-size: 10px; color: #d9534f; margin-top: 10px; font-style: italic; border-top: 1px dashed #ccc; padding-top: 5px;">
+                            *Badan air permanen (sungai/danau) dikeluarkan dari kalkulasi luasan terdampak.
+                        </p>
                     </div>
                 </div>
 
-                <div class="images-container" style="flex: 2; display: flex; flex-direction: column;">
+                <div class="images-container">
                     <div class="titleResult">
                         <span class="curImage" id="img-title" style="font-weight: bold;">Peta Genangan Historis</span>
                     </div>
-                    
+
+                    <div class="section-title">1. Peta Konteks Regional</div>
+                    <div class="context-container">
+                        <div class="context-box">
+                            <h4>Batas Administrasi & Lokasi ROI (Merah)</h4>
+                            <img id="img-konteks" src="" alt="Peta Konteks Bandung Raya">
+                        </div>
+                    </div>
+
+                    <div class="section-title">2. Analisis Sensor Radar (Sentinel-1 SAR)</div>
                     <div class="grid-3-col">
                         <div class="grid-box">
-                            <h4>Kondisi Pra-Banjir</h4>
-                            <img id="img-sebelum" src="" alt="Citra Sebelum Banjir">
+                            <h4>SAR VH (Pra-Banjir)</h4>
+                            <img id="img-sar-sebelum" src="" alt="SAR Sebelum Banjir">
                         </div>
                         <div class="grid-box">
-                            <h4>Kondisi Saat Banjir</h4>
-                            <img id="img-sesudah" src="" alt="Citra Sesudah Banjir">
+                            <h4>SAR VH (Pasca-Banjir)</h4>
+                            <img id="img-sar-sesudah" src="" alt="SAR Sesudah Banjir">
+                        </div>
+                        <div class="grid-box border-highlight">
+                            <h4>SAR Masked (Area yang Ditandai Sebagai Banjir)</h4>
+                            <img id="img-sar-masked" src="" alt="SAR Masked Banjir">
+                        </div>
+                    </div>
+
+                    <div class="section-title">3. Visualisasi Lanskap Optik (Sentinel-2 True Color RGB)</div>
+                    <div class="grid-3-col">
+                        <div class="grid-box">
+                            <h4>S2 RGB Basemap (Kondisi Acuan)</h4>
+                            <img id="img-rgb-sebelum" src="" alt="RGB Sebelum Banjir">
                         </div>
                         <div class="grid-box">
-                            <h4>Masker Ekstraksi Banjir</h4>
-                            <img id="img-masked" src="" alt="Masker Banjir">
+                            <h4>S2 RGB Basemap (Kondisi Acuan)</h4>
+                            <img id="img-rgb-sesudah" src="" alt="RGB Sesudah Banjir">
+                        </div>
+                        <div class="grid-box border-highlight">
+                            <h4>RGB Masked (Area yang Ditandai Sebagai Banjir)</h4>
+                            <img id="img-rgb-masked" src="" alt="RGB Masked Banjir">
                         </div>
                     </div>
                 </div>
@@ -113,21 +192,26 @@
         const floodData = {{ flood_data | tojson | safe }};
         const basePath = "{{ url_for('static', filename='assets/predictions/') }}";
 
-        // Element Referensi
+        // DOM Referensi Element
         const selTahun = document.getElementById('filter-tahun');
         const selKejadian = document.getElementById('filter-kejadian');
         const selSkala = document.getElementById('filter-skala');
-        
+
         const statWilayah = document.getElementById('stat-wilayah');
         const statPre = document.getElementById('stat-pre');
         const statPost = document.getElementById('stat-post');
         const statHa = document.getElementById('stat-ha');
         const statM2 = document.getElementById('stat-m2');
         const imgTitle = document.getElementById('img-title');
-        
-        const imgSebelum = document.getElementById('img-sebelum');
-        const imgSesudah = document.getElementById('img-sesudah');
-        const imgMasked = document.getElementById('img-masked');
+
+        // Element Gambar Baru (7 Gambar)
+        const imgKonteks = document.getElementById('img-konteks');
+        const imgSarSebelum = document.getElementById('img-sar-sebelum');
+        const imgSarSesudah = document.getElementById('img-sar-sesudah');
+        const imgSarMasked = document.getElementById('img-sar-masked');
+        const imgRgbSebelum = document.getElementById('img-rgb-sebelum');
+        const imgRgbSesudah = document.getElementById('img-rgb-sesudah');
+        const imgRgbMasked = document.getElementById('img-rgb-masked');
 
         let currentEvent = null;
 
@@ -140,13 +224,13 @@
                 option.textContent = year;
                 selTahun.appendChild(option);
             });
-            updateKejadian(); 
+            updateKejadian();
         }
 
         function updateKejadian() {
             const selectedYear = parseInt(selTahun.value);
-            selKejadian.innerHTML = ''; 
-            
+            selKejadian.innerHTML = '';
+
             const events = floodData.filter(item => item.tahun === selectedYear);
             events.forEach(event => {
                 const option = document.createElement('option');
@@ -154,43 +238,51 @@
                 option.textContent = `Banjir ${event.daerah} (${event.post_start})`;
                 selKejadian.appendChild(option);
             });
-            updateVisual(); 
+            updateVisual();
         }
 
         function updateVisual() {
             const selectedEventId = parseInt(selKejadian.value);
-            const skala = selSkala.value; 
-            
+            const skala = selSkala.value;
+
             currentEvent = floodData.find(item => item.id === selectedEventId);
-            
+
             if (currentEvent) {
-                // Update Statistik
+                // 1. Sinkronisasi Data Statistik Rekaman
                 statPre.textContent = `${currentEvent.pre_start} s/d ${currentEvent.pre_end}`;
                 statPost.textContent = `${currentEvent.post_start} s/d ${currentEvent.post_end}`;
-                
-                // MENGGUNAKAN KOLOM 'kode_raya' UNTUK MENGAKOMODASI 2 KEJADIAN SETAHUN
+
                 let prefixSkala = (skala === 'fokus') ? currentEvent.daerah : currentEvent.kode_raya;
-                
+
                 if (skala === 'fokus') {
                     statWilayah.textContent = `Kecamatan ${currentEvent.daerah}`;
                     statHa.textContent = `${currentEvent.luas_ha_fokus} Ha`;
                     statM2.textContent = `Kalkulasi m² : ${currentEvent.luas_m2_fokus}`;
-                    imgTitle.textContent = `Perbandingan Fokus Area: ${currentEvent.daerah}`;
+                    imgTitle.textContent = `Perbandingan Fokus Area Kejadian: ${currentEvent.daerah}`;
                 } else {
                     statWilayah.textContent = `Keseluruhan Bandung Raya (Kejadian ${currentEvent.daerah})`;
                     statHa.textContent = `${currentEvent.luas_ha_raya} Ha`;
                     statM2.textContent = `Kalkulasi m² : ${currentEvent.luas_m2_raya}`;
-                    imgTitle.textContent = `Perbandingan Area Bandung Raya`;
+                    imgTitle.textContent = `Perbandingan Area Makro Bandung Raya`;
                 }
 
-                // Update Image Sources Dinamis berdasarkan suffix
-                imgSebelum.src = `${basePath}${currentEvent.tahun}_sebelum_${prefixSkala}.png`;
-                imgSesudah.src = `${basePath}${currentEvent.tahun}_sesudah_${prefixSkala}.png`;
-                imgMasked.src = `${basePath}${currentEvent.tahun}_masked_${prefixSkala}.png`;
+                // 2. Pemetaan Sumber Gambar Secara Dinamis Sesuai Nomenklatur Baru GEE Pipeline
+                // Menghilangkan spasi pada nama file jika ada
+                let cleanPrefix = prefixSkala.replace(/\s+/g, '');
+
+                imgKonteks.src = `${basePath}${currentEvent.tahun}_peta_konteks_${cleanPrefix}.png`;
+
+                imgSarSebelum.src = `${basePath}${currentEvent.tahun}_sar_sebelum_${cleanPrefix}.png`;
+                imgSarSesudah.src = `${basePath}${currentEvent.tahun}_sar_sesudah_${cleanPrefix}.png`;
+                imgSarMasked.src = `${basePath}${currentEvent.tahun}_sar_masked_${cleanPrefix}.png`;
+
+                imgRgbSebelum.src = `${basePath}${currentEvent.tahun}_rgb_sebelum_${cleanPrefix}.png`;
+                imgRgbSesudah.src = `${basePath}${currentEvent.tahun}_rgb_sesudah_${cleanPrefix}.png`;
+                imgRgbMasked.src = `${basePath}${currentEvent.tahun}_rgb_masked_${cleanPrefix}.png`;
             }
         }
 
-        // Event Listeners
+        // Event Listeners Kontrol Filter
         selTahun.addEventListener('change', updateKejadian);
         selKejadian.addEventListener('change', updateVisual);
         selSkala.addEventListener('change', updateVisual);
@@ -205,4 +297,5 @@
         window.addEventListener('DOMContentLoaded', initTahun);
     </script>
 </body>
+
 </html>

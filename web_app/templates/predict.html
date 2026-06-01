@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analisis Area Terdampak Banjir - Bandung Raya</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/predictStyle.css') }}">
 </head>
+
 <body>
     <div class="container">
         <div class="header">Analisis Area Terdampak Banjir - Bandung Raya</div>
@@ -19,7 +22,7 @@
                 </div>
                 <div class="sidebar-group" id="detail" data-url="{{ url_for('detail') }}">
                     <img src="{{ url_for('static', filename='assets/detail.png') }}">
-                    Data Historis
+                    Obeservasi Area
                 </div>
                 <div class="sidebar-group active" id="prediction" data-url="{{ url_for('predict') }}">
                     <img src="{{ url_for('static', filename='assets/prediction.png') }}">
@@ -29,70 +32,120 @@
 
             <div class="main-content">
                 <div class="side-container">
-                    
+
                     <form class="input" method="POST" action="{{ url_for('predict') }}">
                         <label>
                             Pilih Lokasi Pengamatan:
-                            <select name="kecamatan" class="select-date" required style="width: 100%; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Poppins'; padding: 0 10px;">
+                            <select name="kecamatan" class="select-date" required
+                                style="width: 100%; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Poppins'; padding: 0 10px;">
                                 <option value="" disabled selected>-- Pilih Kecamatan --</option>
-                                <option value="BandungRaya" {% if kecamatan == 'BandungRaya' %}selected{% endif %}>BandungRaya</option>
-                                <option value="Arjasari" {% if kecamatan == 'Arjasari' %}selected{% endif %}>Arjasari</option>
-                                <option value="Baleendah" {% if kecamatan == 'Baleendah' %}selected{% endif %}>Baleendah</option>
-                                <option value="Bojongsoang" {% if kecamatan == 'Bojongsoang' %}selected{% endif %}>Bojongsoang</option>
-                                <option value="Cicaheum" {% if kecamatan == 'Cicaheum' %}selected{% endif %}>Cicaheum</option>
-                                <option value="Cilengkrang" {% if kecamatan == 'Cilengkrang' %}selected{% endif %}>Cilengkrang</option>
-                                <option value="Cileunyi" {% if kecamatan == 'Cileunyi' %}selected{% endif %}>Cileunyi</option>
-                                <option value="Dayeuhkolot" {% if kecamatan == 'Dayeuhkolot' %}selected{% endif %}>Dayeuhkolot</option>
-                                <option value="Kutawaringin" {% if kecamatan == 'Kutawaringin' %}selected{% endif %}>Kutawaringin</option>
-                                <option value="Pasteur" {% if kecamatan == 'Pasteur' %}selected{% endif %}>Pasteur</option>
-                                <option value="Rancaekek" {% if kecamatan == 'Rancaekek' %}selected{% endif %}>Rancaekek</option>
-                                <option value="Soreang" {% if kecamatan == 'Soreang' %}selected{% endif %}>Soreang</option>
+                                <option value="BandungRaya" {% if kecamatan=='BandungRaya' %}selected{% endif %}>
+                                    BandungRaya</option>
+                                <option value="Arjasari" {% if kecamatan=='Arjasari' %}selected{% endif %}>Arjasari
+                                </option>
+                                <option value="Baleendah" {% if kecamatan=='Baleendah' %}selected{% endif %}>Baleendah
+                                </option>
+                                <option value="Bojongsoang" {% if kecamatan=='Bojongsoang' %}selected{% endif %}>
+                                    Bojongsoang</option>
+                                <option value="Cicaheum" {% if kecamatan=='Cicaheum' %}selected{% endif %}>Cicaheum
+                                </option>
+                                <option value="Cilengkrang" {% if kecamatan=='Cilengkrang' %}selected{% endif %}>
+                                    Cilengkrang</option>
+                                <option value="Cileunyi" {% if kecamatan=='Cileunyi' %}selected{% endif %}>Cileunyi
+                                </option>
+                                <option value="Dayeuhkolot" {% if kecamatan=='Dayeuhkolot' %}selected{% endif %}>
+                                    Dayeuhkolot</option>
+                                <option value="Kutawaringin" {% if kecamatan=='Kutawaringin' %}selected{% endif %}>
+                                    Kutawaringin</option>
+                                <option value="Pasteur" {% if kecamatan=='Pasteur' %}selected{% endif %}>Pasteur
+                                </option>
+                                <option value="Rancaekek" {% if kecamatan=='Rancaekek' %}selected{% endif %}>Rancaekek
+                                </option>
+                                <option value="Soreang" {% if kecamatan=='Soreang' %}selected{% endif %}>Soreang
+                                </option>
 
                             </select>
                         </label>
 
                         <label style="margin-top: 15px; display: block;">
-                            Tanggal Awal Banjir:
-                            <input class="select-date" type="date" name="start_date" value="{{ start_date or '' }}" required/>
+                            Tanggal Awal Observasi:
+                            <input class="select-date" type="date" name="start_date" value="{{ start_date or '' }}"
+                                required />
                         </label>
 
                         <label style="margin-top: 15px; display: block;">
-                            Tanggal Akhir Banjir:
-                            <input class="select-date" type="date" name="end_date" value="{{ end_date or '' }}" required/>
+                            Tanggal Akhir Observasi:
+                            <input class="select-date" type="date" name="end_date" value="{{ end_date or '' }}"
+                                required />
                         </label>
 
                         <button type="submit" class="submit" style="margin-top: 25px;">
                             Eksekusi GEE
                         </button>
                     </form>
-                    
+
                     {% if error %}
                     <p style="color: red; margin-top: 15px; font-size: 13px;">{{ error }}</p>
                     {% endif %}
 
                     {% if show_img_container %}
-                    <div style="margin-top: 30px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <span style="font-size: 16px; font-weight: 600; color: #333; display: block; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;">Laporan Kalkulasi Luas</span>
-                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Baseline (Sebelum):</strong> <br/>{{ pre_period }}</p>
-                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Genangan (Sesudah):</strong> <br/>{{ post_period }}</p>
-                        
+                    <div
+                        style="margin-top: 30px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <span
+                            style="font-size: 16px; font-weight: 600; color: #333; display: block; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;">Laporan
+                            Kalkulasi Luas</span>
+                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Pra-Observasi (Sebelum):</strong> <br />{{
+                            pre_period }}</p>
+                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Observasi (Sesudah):</strong> <br />{{
+                            post_period }}</p>
+
                         <p style="font-size: 13px; margin: 15px 0 0 0; font-weight: 600;">Total Luas Terdampak:</p>
                         <h2 style="font-size: 24px; color: #0f52ba; margin: 0; padding: 0;">{{ luas_ha }} Ha</h2>
                         <span style="font-size: 11px; color: #777;">Kalkulasi m² : {{ luas_m2 }}</span>
+
+                        <!-- FOOTNOTE -->
+                        <p
+                            style="font-size: 11px; color: #d9534f; margin-top: 10px; font-style: italic; border-top: 1px dashed #ccc; padding-top: 5px;">
+                            *Catatan: Kalkulasi hanya menghitung genangan baru. Badan air permanen
+                            seperti sungai utama telah dikecualikan otomatis melalui ambang batas Backscatter Ratio.
+                        </p>
                     </div>
                     {% endif %}
                 </div>
 
-                <div class="images-container {% if not show_img_container %}hidden{% endif %}">
-                    <div class="titleResult">
-                        <span class="curImage">Overlay Sentinel-1 (VH Grayscale) & Masker Banjir (Biru)</span>
+                <div class="images-container">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h4>Peta Konteks Lokasi (Bandung Raya)</h4>
+                        <img src="{{ url_peta_konteks }}"
+                            style="width: 50%; max-height: 300px; object-fit: contain; border: 1px solid #ddd;">
                     </div>
-                    <div class="imgResult">
-                        {% if url_gambar %}
-                            <img class="predict-img" id="prediksi_res" src="{{ url_gambar }}" alt="Hasil Prediksi Banjir" style="max-height: 80vh; object-fit: contain;">
-                        {% else %}
-                            <img class="predict-img" id="prediksi_res" src="{{ url_for('static', filename='assets/custom_model/prediction.png') }}" alt="Placeholder Banjir">
-                        {% endif %}
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div>
+                            <h5>SAR (VH) Sebelum Banjir</h5>
+                            <img src="{{ url_sar_sebelum }}" style="width:100%;">
+                        </div>
+                        <div>
+                            <h5>SAR (VH) Pasca Banjir</h5>
+                            <img src="{{ url_sar_sesudah }}" style="width:100%;">
+                        </div>
+                        <div>
+                            <h5>SAR Masked (Genangan)</h5>
+                            <img src="{{ url_sar_masked }}" style="width:100%; border: 2px solid #0f52ba;">
+                        </div>
+
+                        <div>
+                            <h5>Optik RGB Basemap (Sebelum)</h5>
+                            <img src="{{ url_rgb_sebelum }}" style="width:100%;">
+                        </div>
+                        <div>
+                            <h5>Optik RGB Basemap (Pasca)</h5>
+                            <img src="{{ url_rgb_sesudah }}" style="width:100%;">
+                        </div>
+                        <div>
+                            <h5>Optik RGB Masked (Genangan)</h5>
+                            <img src="{{ url_rgb_masked }}" style="width:100%; border: 2px solid #0f52ba;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,29 +153,30 @@
     </div>
 
     <script>
-    /* Side Bar Navigasi */
-    document.querySelectorAll('.sidebar-group').forEach(item => {
-        item.addEventListener('click', () => {
-            const url = item.getAttribute('data-url');
-            if (url) {
-                window.location.href = url;
-            }
+        /* Side Bar Navigasi */
+        document.querySelectorAll('.sidebar-group').forEach(item => {
+            item.addEventListener('click', () => {
+                const url = item.getAttribute('data-url');
+                if (url) {
+                    window.location.href = url;
+                }
+            });
         });
-    });
 
-    /* Konfigurasi Input Rentang Waktu (Sentinel-1 diluncurkan April 2014) */
-    window.addEventListener("DOMContentLoaded", () => {
-        const dateInputs = document.querySelectorAll(".select-date[type='date']");
-        const minDate = "2014-10-01"; // Citra Sentinel-1 mulai diakses publik secara stabil akhir 2014
-        
-        let today = new Date();
-        let maxDate = today.toISOString().split('T')[0];
+        /* Konfigurasi Input Rentang Waktu (Sentinel-1 diluncurkan April 2014) */
+        window.addEventListener("DOMContentLoaded", () => {
+            const dateInputs = document.querySelectorAll(".select-date[type='date']");
+            const minDate = "2014-10-01"; // Citra Sentinel-1 mulai diakses publik secara stabil akhir 2014
 
-        dateInputs.forEach(input => {
-            input.min = minDate;
-            input.max = maxDate;
+            let today = new Date();
+            let maxDate = today.toISOString().split('T')[0];
+
+            dateInputs.forEach(input => {
+                input.min = minDate;
+                input.max = maxDate;
+            });
         });
-    });
     </script>
 </body>
+
 </html>

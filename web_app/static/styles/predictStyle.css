@@ -37,8 +37,13 @@ body {
     cursor: pointer;
 }
 
-#prediction {
+.sidebar-group.active {
     background-color: #808D92;
+    border-radius: 5px;
+}
+
+.sidebar-group:hover:not(.active) {
+    background-color: #1e5382; /* Efek menyala sedikit saat di-hover kursor */
     border-radius: 5px;
 }
 

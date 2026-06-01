@@ -1,0 +1,319 @@
+[1/16] Menganalisis Baleendah (Tahun 2016)
+    Periode Sebelum: 2016-03-12 s/d 2016-04-11
+    Periode Sesudah: 2016-04-12 s/d 2016-04-26
+    -> Tersimpan: imageBerita\2016_sebelum_Baleendah.png
+    -> Tersimpan: imageBerita\2016_sesudah_Baleendah.png
+    -> Tersimpan: imageBerita\2016_masked_Baleendah.png
+    Selesai. Luas terdampak: 1903613.47 m²
+
+[2/16] Menganalisis Pasteur (Tahun 2017)
+    Periode Sebelum: 2017-02-08 s/d 2017-03-07
+    Periode Sesudah: 2017-03-08 s/d 2017-03-22
+    -> Tersimpan: imageBerita\2017_sebelum_Pasteur.png
+    -> Tersimpan: imageBerita\2017_sesudah_Pasteur.png
+    -> Tersimpan: imageBerita\2017_masked_Pasteur.png
+    Selesai. Luas terdampak: 631.26 m²
+
+[3/16] Menganalisis Baleendah (Tahun 2017)
+    Periode Sebelum: 2017-02-08 s/d 2017-03-07
+    Periode Sesudah: 2017-03-08 s/d 2017-03-22
+    -> Tersimpan: imageBerita\2017_sebelum_Baleendah.png
+    -> Tersimpan: imageBerita\2017_sesudah_Baleendah.png
+    -> Tersimpan: imageBerita\2017_masked_Baleendah.png
+    Selesai. Luas terdampak: 535207.96 m²
+
+[4/16] Menganalisis Dayeuhkolot (Tahun 2018)
+    Periode Sebelum: 2018-10-12 s/d 2018-11-11
+    Periode Sesudah: 2018-11-12 s/d 2018-11-26
+    -> Tersimpan: imageBerita\2018_sebelum_Dayeuhkolot.png
+    -> Tersimpan: imageBerita\2018_sesudah_Dayeuhkolot.png
+    -> Tersimpan: imageBerita\2018_masked_Dayeuhkolot.png
+    Selesai. Luas terdampak: 39150.30 m²
+
+[5/16] Menganalisis Cicaheum (Tahun 2018)
+    Periode Sebelum: 2018-02-20 s/d 2018-03-19
+    Periode Sesudah: 2018-03-20 s/d 2018-04-03
+    -> Tersimpan: imageBerita\2018_sebelum_Cicaheum.png
+    -> Tersimpan: imageBerita\2018_sesudah_Cicaheum.png
+    -> Tersimpan: imageBerita\2018_masked_Cicaheum.png
+    Selesai. Luas terdampak: 46468.81 m²
+
+[6/16] Menganalisis Cilengkrang (Tahun 2019)
+    Periode Sebelum: 2019-01-09 s/d 2019-02-08
+    Periode Sesudah: 2019-02-09 s/d 2019-02-28
+    -> Tersimpan: imageBerita\2019_sebelum_Cilengkrang.png
+    -> Tersimpan: imageBerita\2019_sesudah_Cilengkrang.png
+    -> Tersimpan: imageBerita\2019_masked_Cilengkrang.png
+    Selesai. Luas terdampak: 4206.75 m²
+
+[7/16] Menganalisis Bojongsoang (Tahun 2019)
+    Periode Sebelum: 2019-11-17 s/d 2019-12-16
+    Periode Sesudah: 2019-12-17 s/d 2020-01-06
+    -> Tersimpan: imageBerita\2019_sebelum_Bojongsoang.png
+    -> Tersimpan: imageBerita\2019_sesudah_Bojongsoang.png
+    -> Tersimpan: imageBerita\2019_masked_Bojongsoang.png
+    Selesai. Luas terdampak: 2550553.02 m²
+
+[8/16] Menganalisis Rancaekek (Tahun 2020)
+    Periode Sebelum: 2020-11-15 s/d 2020-12-14
+    Periode Sesudah: 2020-12-15 s/d 2020-12-29
+    -> Tersimpan: imageBerita\2020_sebelum_Rancaekek.png
+    -> Tersimpan: imageBerita\2020_sesudah_Rancaekek.png
+    -> Tersimpan: imageBerita\2020_masked_Rancaekek.png
+    Selesai. Luas terdampak: 3993876.93 m²
+
+[9/16] Menganalisis Pasteur (Tahun 2020)
+    Periode Sebelum: 2020-11-25 s/d 2020-12-24
+    Periode Sesudah: 2020-12-25 s/d 2021-01-08
+    -> Tersimpan: imageBerita\2020_sebelum_Pasteur.png
+    -> Tersimpan: imageBerita\2020_sesudah_Pasteur.png
+    -> Tersimpan: imageBerita\2020_masked_Pasteur.png
+    Selesai. Luas terdampak: 2305.27 m²
+
+[10/16] Menganalisis Arjasari (Tahun 2021)
+    Periode Sebelum: 2021-09-19 s/d 2021-10-18
+    Periode Sesudah: 2021-10-19 s/d 2021-11-02
+    -> Tersimpan: imageBerita\2021_sebelum_Arjasari.png
+    -> Tersimpan: imageBerita\2021_sesudah_Arjasari.png
+    -> Tersimpan: imageBerita\2021_masked_Arjasari.png
+    Selesai. Luas terdampak: 38956.78 m²
+
+[11/16] Menganalisis Dayeuhkolot (Tahun 2021)
+    Periode Sebelum: 2021-10-02 s/d 2021-11-01
+    Periode Sesudah: 2021-11-02 s/d 2021-11-16
+    -> Tersimpan: imageBerita\2021_sebelum_Dayeuhkolot.png
+    -> Tersimpan: imageBerita\2021_sesudah_Dayeuhkolot.png
+    -> Tersimpan: imageBerita\2021_masked_Dayeuhkolot.png
+    Selesai. Luas terdampak: 40251.65 m²
+
+[12/16] Menganalisis Kutawaringin (Tahun 2022)
+    Periode Sebelum: 2022-10-14 s/d 2022-11-13
+    Periode Sesudah: 2022-11-14 s/d 2022-11-28
+    -> Tersimpan: imageBerita\2022_sebelum_Kutawaringin.png
+    -> Tersimpan: imageBerita\2022_sesudah_Kutawaringin.png
+    -> Tersimpan: imageBerita\2022_masked_Kutawaringin.png
+    Selesai. Luas terdampak: 505287.90 m²
+
+[13/16] Menganalisis Cileunyi (Tahun 2022)
+    Periode Sebelum: 2022-10-07 s/d 2022-11-06
+    Periode Sesudah: 2022-11-07 s/d 2022-11-21
+    -> Tersimpan: imageBerita\2022_sebelum_Cileunyi.png
+    -> Tersimpan: imageBerita\2022_sesudah_Cileunyi.png
+    -> Tersimpan: imageBerita\2022_masked_Cileunyi.png
+    Selesai. Luas terdampak: 910823.55 m²
+
+[14/16] Menganalisis Soreang (Tahun 2023)
+    Periode Sebelum: 2023-10-30 s/d 2023-11-29
+    Periode Sesudah: 2023-11-30 s/d 2023-12-14
+    -> Tersimpan: imageBerita\2023_sebelum_Soreang.png
+    -> Tersimpan: imageBerita\2023_sesudah_Soreang.png
+    -> Tersimpan: imageBerita\2023_masked_Soreang.png
+    Selesai. Luas terdampak: 208452.62 m²
+
+[15/16] Menganalisis Dayeuhkolot (Tahun 2023)
+    Periode Sebelum: 2023-11-25 s/d 2023-12-24
+    Periode Sesudah: 2023-12-25 s/d 2024-01-08
+    -> Tersimpan: imageBerita\2023_sebelum_Dayeuhkolot.png
+    -> Tersimpan: imageBerita\2023_sesudah_Dayeuhkolot.png
+    -> Tersimpan: imageBerita\2023_masked_Dayeuhkolot.png
+    Selesai. Luas terdampak: 4832.16 m²
+
+[16/16] Menganalisis Dayeuhkolot (Tahun 2024)
+    Periode Sebelum: 2023-12-11 s/d 2024-01-10
+    Periode Sesudah: 2024-01-11 s/d 2024-01-25
+    -> Tersimpan: imageBerita\2024_sebelum_Dayeuhkolot.png
+    -> Tersimpan: imageBerita\2024_sesudah_Dayeuhkolot.png
+    -> Tersimpan: imageBerita\2024_masked_Dayeuhkolot.png
+    Selesai. Luas terdampak: 71792.09 m²
+
+[1/16] Menganalisis BandungRaya1 (Tahun 2016)
+    Periode Sebelum: 2016-03-12 s/d 2016-04-11
+    Periode Sesudah: 2016-04-12 s/d 2016-04-26
+    -> Tersimpan: imageBandungRaya\2016_sar_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2016_sar_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2016_sar_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2016_rgb_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2016_rgb_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2016_rgb_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2016_peta_konteks_BandungRaya1.png
+    Selesai. Luas terdampak: 22800237.21 m²
+
+[2/16] Menganalisis BandungRaya1 (Tahun 2017)
+    Periode Sebelum: 2017-02-08 s/d 2017-03-07
+    Periode Sesudah: 2017-03-08 s/d 2017-03-22
+    -> Tersimpan: imageBandungRaya\2017_sar_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2017_sar_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2017_sar_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2017_rgb_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2017_rgb_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2017_rgb_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2017_peta_konteks_BandungRaya1.png
+    Selesai. Luas terdampak: 6862031.97 m²
+
+[3/16] Menganalisis BandungRaya2 (Tahun 2017)
+    Periode Sebelum: 2017-02-08 s/d 2017-03-07
+    Periode Sesudah: 2017-03-08 s/d 2017-03-22
+    -> Tersimpan: imageBandungRaya\2017_sar_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2017_sar_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2017_sar_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2017_rgb_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2017_rgb_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2017_rgb_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2017_peta_konteks_BandungRaya2.png
+    Selesai. Luas terdampak: 6862031.97 m²
+
+[4/16] Menganalisis BandungRaya1 (Tahun 2018)
+    Periode Sebelum: 2018-10-12 s/d 2018-11-11
+    Periode Sesudah: 2018-11-12 s/d 2018-11-26
+    -> Tersimpan: imageBandungRaya\2018_sar_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2018_sar_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2018_sar_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2018_rgb_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2018_rgb_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2018_rgb_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2018_peta_konteks_BandungRaya1.png
+    Selesai. Luas terdampak: 22277823.57 m²
+
+[5/16] Menganalisis BandungRaya2 (Tahun 2018)
+    Periode Sebelum: 2018-02-20 s/d 2018-03-19
+    Periode Sesudah: 2018-03-20 s/d 2018-04-03
+    -> Tersimpan: imageBandungRaya\2018_sar_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2018_sar_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2018_sar_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2018_rgb_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2018_rgb_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2018_rgb_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2018_peta_konteks_BandungRaya2.png
+    Selesai. Luas terdampak: 6592975.22 m²
+
+[6/16] Menganalisis BandungRaya1 (Tahun 2019)
+    Periode Sebelum: 2019-01-09 s/d 2019-02-08
+    Periode Sesudah: 2019-02-09 s/d 2019-02-28
+    -> Tersimpan: imageBandungRaya\2019_sar_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2019_sar_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2019_sar_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2019_rgb_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2019_rgb_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2019_rgb_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2019_peta_konteks_BandungRaya1.png
+    Selesai. Luas terdampak: 10692316.46 m²
+
+[7/16] Menganalisis BandungRaya2 (Tahun 2019)
+    Periode Sebelum: 2019-11-17 s/d 2019-12-16
+    Periode Sesudah: 2019-12-17 s/d 2020-01-06
+    -> Tersimpan: imageBandungRaya\2019_sar_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2019_sar_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2019_sar_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2019_rgb_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2019_rgb_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2019_rgb_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2019_peta_konteks_BandungRaya2.png
+    Selesai. Luas terdampak: 31177890.06 m²
+
+[8/16] Menganalisis BandungRaya1 (Tahun 2020)
+    Periode Sebelum: 2020-11-15 s/d 2020-12-14
+    Periode Sesudah: 2020-12-15 s/d 2020-12-29
+    -> Tersimpan: imageBandungRaya\2020_sar_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2020_sar_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2020_sar_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2020_rgb_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2020_rgb_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2020_rgb_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2020_peta_konteks_BandungRaya1.png
+    Selesai. Luas terdampak: 18632722.70 m²
+
+[9/16] Menganalisis BandungRaya2 (Tahun 2020)
+    Periode Sebelum: 2020-11-25 s/d 2020-12-24
+    Periode Sesudah: 2020-12-25 s/d 2021-01-08
+    -> Tersimpan: imageBandungRaya\2020_sar_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2020_sar_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2020_sar_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2020_rgb_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2020_rgb_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2020_rgb_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2020_peta_konteks_BandungRaya2.png
+    Selesai. Luas terdampak: 14055456.67 m²
+
+[10/16] Menganalisis BandungRaya1 (Tahun 2021)
+    Periode Sebelum: 2021-09-19 s/d 2021-10-18
+    Periode Sesudah: 2021-10-19 s/d 2021-11-02
+    -> Tersimpan: imageBandungRaya\2021_sar_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2021_sar_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2021_sar_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2021_rgb_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2021_rgb_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2021_rgb_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2021_peta_konteks_BandungRaya1.png
+    Selesai. Luas terdampak: 5362217.76 m²
+
+[11/16] Menganalisis BandungRaya2 (Tahun 2021)
+    Periode Sebelum: 2021-10-02 s/d 2021-11-01
+    Periode Sesudah: 2021-11-02 s/d 2021-11-16
+    -> Tersimpan: imageBandungRaya\2021_sar_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2021_sar_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2021_sar_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2021_rgb_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2021_rgb_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2021_rgb_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2021_peta_konteks_BandungRaya2.png
+    Selesai. Luas terdampak: 11704663.16 m²
+
+[12/16] Menganalisis BandungRaya1 (Tahun 2022)
+    Periode Sebelum: 2022-10-14 s/d 2022-11-13
+    Periode Sesudah: 2022-11-14 s/d 2022-11-28
+    -> Tersimpan: imageBandungRaya\2022_sar_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2022_sar_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2022_sar_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2022_rgb_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2022_rgb_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2022_rgb_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2022_peta_konteks_BandungRaya1.png
+    Selesai. Luas terdampak: 18758008.20 m²
+
+[13/16] Menganalisis BandungRaya2 (Tahun 2022)
+    Periode Sebelum: 2022-10-07 s/d 2022-11-06
+    Periode Sesudah: 2022-11-07 s/d 2022-11-21
+    -> Tersimpan: imageBandungRaya\2022_sar_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2022_sar_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2022_sar_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2022_rgb_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2022_rgb_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2022_rgb_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2022_peta_konteks_BandungRaya2.png
+    Selesai. Luas terdampak: 21411935.09 m²
+
+[14/16] Menganalisis BandungRaya1 (Tahun 2023)
+    Periode Sebelum: 2023-10-30 s/d 2023-11-29
+    Periode Sesudah: 2023-11-30 s/d 2023-12-14
+    -> Tersimpan: imageBandungRaya\2023_sar_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2023_sar_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2023_sar_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2023_rgb_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2023_rgb_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2023_rgb_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2023_peta_konteks_BandungRaya1.png
+    Selesai. Luas terdampak: 9997813.91 m²
+
+[15/16] Menganalisis BandungRaya2 (Tahun 2023)
+    Periode Sebelum: 2023-11-25 s/d 2023-12-24
+    Periode Sesudah: 2023-12-25 s/d 2024-01-08
+    -> Tersimpan: imageBandungRaya\2023_sar_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2023_sar_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2023_sar_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2023_rgb_sebelum_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2023_rgb_sesudah_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2023_rgb_masked_BandungRaya2.png
+    -> Tersimpan: imageBandungRaya\2023_peta_konteks_BandungRaya2.png
+    Selesai. Luas terdampak: 40126307.70 m²
+
+[16/16] Menganalisis BandungRaya1 (Tahun 2024)
+    Periode Sebelum: 2023-12-11 s/d 2024-01-10
+    Periode Sesudah: 2024-01-11 s/d 2024-01-25
+    -> Tersimpan: imageBandungRaya\2024_sar_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2024_sar_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2024_sar_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2024_rgb_sebelum_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2024_rgb_sesudah_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2024_rgb_masked_BandungRaya1.png
+    -> Tersimpan: imageBandungRaya\2024_peta_konteks_BandungRaya1.png
+    Selesai. Luas terdampak: 28039824.68 m²
