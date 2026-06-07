@@ -14,7 +14,7 @@ def get_asset_geometry(nama_area):
     Memanggil poligon area administrasi asli dari Asset GEE.
     Mencakup 4 Wilayah Utama + 5 Kecamatan di Sumedang Barat.
     """
-    batas_wilayah = ee.FeatureCollection('projects/ee-johnsonnn/assets/BatasWilayahKecamatan')
+    batas_wilayah = ee.FeatureCollection('projects/ee-johnsonnn/assets/Bandung_Raya')
     
     daftar_kabkota = ['Bandung', 'Bandung Barat', 'Kota Bandung', 'Kota Cimahi', 'Cimahi']
     wilayah_utama = batas_wilayah.filter(ee.Filter.inList('WADMKK', daftar_kabkota))
