@@ -21,12 +21,12 @@ daftar_wadmkk = df_bandung['WADMKK'].unique()
 print(daftar_wadmkk)
 
 # Agregasi: Menghitung jumlah kecamatan per Kabupaten/Kota
-print("\n=== JUMLAH KECAMATAN PER WILAYAH ===")
+print("\nJUMLAH KECAMATAN PER WILAYAH")
 agregat_jumlah = df_bandung.groupby('WADMKK')['WADMKC'].count()
 print(agregat_jumlah)
 
 # Menampilkan daftar lengkap Kecamatan (WADMKC) untuk setiap wilayah
-print("\n=== DAFTAR KECAMATAN ===")
+print("\nDAFTAR KECAMATAN")
 for wilayah in daftar_wadmkk:
     kecamatan_list = df_bandung[df_bandung['WADMKK'] == wilayah]['WADMKC'].tolist()
     print(f"\nWilayah: {wilayah}")

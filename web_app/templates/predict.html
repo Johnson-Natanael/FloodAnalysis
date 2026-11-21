@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,10 @@
         rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/predictStyle.css') }}">
+
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -22,7 +26,7 @@
                 </div>
                 <div class="sidebar-group" id="detail" data-url="{{ url_for('detail') }}">
                     <img src="{{ url_for('static', filename='assets/detail.png') }}">
-                    Obeservasi Area
+                    Observasi Area
                 </div>
                 <div class="sidebar-group active" id="prediction" data-url="{{ url_for('predict') }}">
                     <img src="{{ url_for('static', filename='assets/prediction.png') }}">
@@ -39,30 +43,191 @@
                             <select name="kecamatan" class="select-date" required
                                 style="width: 100%; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Poppins'; padding: 0 10px;">
                                 <option value="" disabled selected>-- Pilih Kecamatan --</option>
-                                <option value="BandungRaya" {% if kecamatan=='BandungRaya' %}selected{% endif %}>
-                                    BandungRaya</option>
-                                <option value="Arjasari" {% if kecamatan=='Arjasari' %}selected{% endif %}>Arjasari
-                                </option>
-                                <option value="Baleendah" {% if kecamatan=='Baleendah' %}selected{% endif %}>Baleendah
-                                </option>
-                                <option value="Bojongsoang" {% if kecamatan=='Bojongsoang' %}selected{% endif %}>
-                                    Bojongsoang</option>
-                                <option value="Cicaheum" {% if kecamatan=='Cicaheum' %}selected{% endif %}>Cicaheum
-                                </option>
-                                <option value="Cilengkrang" {% if kecamatan=='Cilengkrang' %}selected{% endif %}>
-                                    Cilengkrang</option>
-                                <option value="Cileunyi" {% if kecamatan=='Cileunyi' %}selected{% endif %}>Cileunyi
-                                </option>
-                                <option value="Dayeuhkolot" {% if kecamatan=='Dayeuhkolot' %}selected{% endif %}>
-                                    Dayeuhkolot</option>
-                                <option value="Kutawaringin" {% if kecamatan=='Kutawaringin' %}selected{% endif %}>
-                                    Kutawaringin</option>
-                                <option value="Pasteur" {% if kecamatan=='Pasteur' %}selected{% endif %}>Pasteur
-                                </option>
-                                <option value="Rancaekek" {% if kecamatan=='Rancaekek' %}selected{% endif %}>Rancaekek
-                                </option>
-                                <option value="Soreang" {% if kecamatan=='Soreang' %}selected{% endif %}>Soreang
-                                </option>
+
+                                <optgroup label="── Seluruh Wilayah ──">
+                                    <option value="BandungRaya" {{ 'selected' if kecamatan=='BandungRaya' else '' }}>
+                                        Seluruh Bandung Raya</option>
+                                </optgroup>
+
+                                <optgroup label="Kota Bandung (30 Kecamatan)">
+                                    <option value="Andir" {{ 'selected' if kecamatan=='Andir' else '' }}>Andir</option>
+                                    <option value="Antapani" {{ 'selected' if kecamatan=='Antapani' else '' }}>Antapani
+                                    </option>
+                                    <option value="Arcamanik" {{ 'selected' if kecamatan=='Arcamanik' else '' }}>
+                                        Arcamanik</option>
+                                    <option value="Astana Anyar" {{ 'selected' if kecamatan=='Astana Anyar' else '' }}>
+                                        Astana Anyar</option>
+                                    <option value="Babakan Ciparay" {{ 'selected' if kecamatan=='Babakan Ciparay'
+                                        else '' }}>Babakan Ciparay</option>
+                                    <option value="Bandung Kidul" {{ 'selected' if kecamatan=='Bandung Kidul' else ''
+                                        }}>Bandung Kidul</option>
+                                    <option value="Bandung Kulon" {{ 'selected' if kecamatan=='Bandung Kulon' else ''
+                                        }}>Bandung Kulon</option>
+                                    <option value="Bandung Wetan" {{ 'selected' if kecamatan=='Bandung Wetan' else ''
+                                        }}>Bandung Wetan</option>
+                                    <option value="Batununggal" {{ 'selected' if kecamatan=='Batununggal' else '' }}>
+                                        Batununggal</option>
+                                    <option value="Bojongloa Kaler" {{ 'selected' if kecamatan=='Bojongloa Kaler'
+                                        else '' }}>Bojongloa Kaler</option>
+                                    <option value="Bojongloa Kidul" {{ 'selected' if kecamatan=='Bojongloa Kidul'
+                                        else '' }}>Bojongloa Kidul</option>
+                                    <option value="Buahbatu" {{ 'selected' if kecamatan=='Buahbatu' else '' }}>Buahbatu
+                                    </option>
+                                    <option value="Cibeunying Kaler" {{ 'selected' if kecamatan=='Cibeunying Kaler'
+                                        else '' }}>Cibeunying Kaler</option>
+                                    <option value="Cibeunying Kidul" {{ 'selected' if kecamatan=='Cibeunying Kidul'
+                                        else '' }}>Cibeunying Kidul</option>
+                                    <option value="Cibiru" {{ 'selected' if kecamatan=='Cibiru' else '' }}>Cibiru
+                                    </option>
+                                    <option value="Cicendo" {{ 'selected' if kecamatan=='Cicendo' else '' }}>Cicendo
+                                    </option>
+                                    <option value="Cidadap" {{ 'selected' if kecamatan=='Cidadap' else '' }}>Cidadap
+                                    </option>
+                                    <option value="Cinambo" {{ 'selected' if kecamatan=='Cinambo' else '' }}>Cinambo
+                                    </option>
+                                    <option value="Coblong" {{ 'selected' if kecamatan=='Coblong' else '' }}>Coblong
+                                    </option>
+                                    <option value="Gedebage" {{ 'selected' if kecamatan=='Gedebage' else '' }}>Gedebage
+                                    </option>
+                                    <option value="Kiaracondong" {{ 'selected' if kecamatan=='Kiaracondong' else '' }}>
+                                        Kiaracondong</option>
+                                    <option value="Lengkong" {{ 'selected' if kecamatan=='Lengkong' else '' }}>Lengkong
+                                    </option>
+                                    <option value="Mandalajati" {{ 'selected' if kecamatan=='Mandalajati' else '' }}>
+                                        Mandalajati</option>
+                                    <option value="Panyileukan" {{ 'selected' if kecamatan=='Panyileukan' else '' }}>
+                                        Panyileukan</option>
+                                    <option value="Rancasari" {{ 'selected' if kecamatan=='Rancasari' else '' }}>
+                                        Rancasari</option>
+                                    <option value="Regol" {{ 'selected' if kecamatan=='Regol' else '' }}>Regol</option>
+                                    <option value="Sukajadi" {{ 'selected' if kecamatan=='Sukajadi' else '' }}>Sukajadi
+                                    </option>
+                                    <option value="Sukasari_KotaBandung" {{ 'selected' if
+                                        kecamatan=='Sukasari_KotaBandung' else '' }}>Sukasari</option>
+                                    <option value="Sumur Bandung" {{ 'selected' if kecamatan=='Sumur Bandung' else ''
+                                        }}>Sumur Bandung</option>
+                                    <option value="Ujungberung" {{ 'selected' if kecamatan=='Ujungberung' else '' }}>
+                                        Ujungberung</option>
+                                </optgroup>
+
+                                <optgroup label="Kabupaten Bandung (31 Kecamatan)">
+                                    <option value="Arjasari" {{ 'selected' if kecamatan=='Arjasari' else '' }}>Arjasari
+                                    </option>
+                                    <option value="Baleendah" {{ 'selected' if kecamatan=='Baleendah' else '' }}>
+                                        Baleendah</option>
+                                    <option value="Banjaran" {{ 'selected' if kecamatan=='Banjaran' else '' }}>Banjaran
+                                    </option>
+                                    <option value="Bojongsoang" {{ 'selected' if kecamatan=='Bojongsoang' else '' }}>
+                                        Bojongsoang</option>
+                                    <option value="Cangkuang" {{ 'selected' if kecamatan=='Cangkuang' else '' }}>
+                                        Cangkuang</option>
+                                    <option value="Cicalengka" {{ 'selected' if kecamatan=='Cicalengka' else '' }}>
+                                        Cicalengka</option>
+                                    <option value="Cikancung" {{ 'selected' if kecamatan=='Cikancung' else '' }}>
+                                        Cikancung</option>
+                                    <option value="Cilengkrang" {{ 'selected' if kecamatan=='Cilengkrang' else '' }}>
+                                        Cilengkrang</option>
+                                    <option value="Cileunyi" {{ 'selected' if kecamatan=='Cileunyi' else '' }}>Cileunyi
+                                    </option>
+                                    <option value="Cimaung" {{ 'selected' if kecamatan=='Cimaung' else '' }}>Cimaung
+                                    </option>
+                                    <option value="Cimenyan" {{ 'selected' if kecamatan=='Cimenyan' else '' }}>Cimenyan
+                                    </option>
+                                    <option value="Ciparay" {{ 'selected' if kecamatan=='Ciparay' else '' }}>Ciparay
+                                    </option>
+                                    <option value="Ciwidey" {{ 'selected' if kecamatan=='Ciwidey' else '' }}>Ciwidey
+                                    </option>
+                                    <option value="Dayeuhkolot" {{ 'selected' if kecamatan=='Dayeuhkolot' else '' }}>
+                                        Dayeuhkolot</option>
+                                    <option value="Ibun" {{ 'selected' if kecamatan=='Ibun' else '' }}>Ibun</option>
+                                    <option value="Katapang" {{ 'selected' if kecamatan=='Katapang' else '' }}>Katapang
+                                    </option>
+                                    <option value="Kertasari" {{ 'selected' if kecamatan=='Kertasari' else '' }}>
+                                        Kertasari</option>
+                                    <option value="Kutawaringin" {{ 'selected' if kecamatan=='Kutawaringin' else '' }}>
+                                        Kutawaringin</option>
+                                    <option value="Majalaya" {{ 'selected' if kecamatan=='Majalaya' else '' }}>Majalaya
+                                    </option>
+                                    <option value="Margaasih" {{ 'selected' if kecamatan=='Margaasih' else '' }}>
+                                        Margaasih</option>
+                                    <option value="Margahayu" {{ 'selected' if kecamatan=='Margahayu' else '' }}>
+                                        Margahayu</option>
+                                    <option value="Nagreg" {{ 'selected' if kecamatan=='Nagreg' else '' }}>Nagreg
+                                    </option>
+                                    <option value="Pacet" {{ 'selected' if kecamatan=='Pacet' else '' }}>Pacet</option>
+                                    <option value="Pameungpeuk" {{ 'selected' if kecamatan=='Pameungpeuk' else '' }}>
+                                        Pameungpeuk</option>
+                                    <option value="Pangalengan" {{ 'selected' if kecamatan=='Pangalengan' else '' }}>
+                                        Pangalengan</option>
+                                    <option value="Paseh" {{ 'selected' if kecamatan=='Paseh' else '' }}>Paseh</option>
+                                    <option value="Pasirjambu" {{ 'selected' if kecamatan=='Pasirjambu' else '' }}>
+                                        Pasirjambu</option>
+                                    <option value="Rancabali" {{ 'selected' if kecamatan=='Rancabali' else '' }}>
+                                        Rancabali</option>
+                                    <option value="Rancaekek" {{ 'selected' if kecamatan=='Rancaekek' else '' }}>
+                                        Rancaekek</option>
+                                    <option value="Solokanjeruk" {{ 'selected' if kecamatan=='Solokanjeruk' else '' }}>
+                                        Solokanjeruk</option>
+                                    <option value="Soreang" {{ 'selected' if kecamatan=='Soreang' else '' }}>Soreang
+                                    </option>
+                                </optgroup>
+
+                                <optgroup label="Kabupaten Bandung Barat (16 Kecamatan)">
+                                    <option value="Batujajar" {{ 'selected' if kecamatan=='Batujajar' else '' }}>
+                                        Batujajar</option>
+                                    <option value="Cihampelas" {{ 'selected' if kecamatan=='Cihampelas' else '' }}>
+                                        Cihampelas</option>
+                                    <option value="Cikalongwetan" {{ 'selected' if kecamatan=='Cikalongwetan' else ''
+                                        }}>Cikalongwetan</option>
+                                    <option value="Cililin" {{ 'selected' if kecamatan=='Cililin' else '' }}>Cililin
+                                    </option>
+                                    <option value="Cipatat" {{ 'selected' if kecamatan=='Cipatat' else '' }}>Cipatat
+                                    </option>
+                                    <option value="Cipeundeuy" {{ 'selected' if kecamatan=='Cipeundeuy' else '' }}>
+                                        Cipeundeuy</option>
+                                    <option value="Cipongkor" {{ 'selected' if kecamatan=='Cipongkor' else '' }}>
+                                        Cipongkor</option>
+                                    <option value="Cisarua" {{ 'selected' if kecamatan=='Cisarua' else '' }}>Cisarua
+                                    </option>
+                                    <option value="Gununghalu" {{ 'selected' if kecamatan=='Gununghalu' else '' }}>
+                                        Gununghalu</option>
+                                    <option value="Lembang" {{ 'selected' if kecamatan=='Lembang' else '' }}>Lembang
+                                    </option>
+                                    <option value="Ngamprah" {{ 'selected' if kecamatan=='Ngamprah' else '' }}>Ngamprah
+                                    </option>
+                                    <option value="Padalarang" {{ 'selected' if kecamatan=='Padalarang' else '' }}>
+                                        Padalarang</option>
+                                    <option value="Parongpong" {{ 'selected' if kecamatan=='Parongpong' else '' }}>
+                                        Parongpong</option>
+                                    <option value="Rongga" {{ 'selected' if kecamatan=='Rongga' else '' }}>Rongga
+                                    </option>
+                                    <option value="Saguling" {{ 'selected' if kecamatan=='Saguling' else '' }}>Saguling
+                                    </option>
+                                    <option value="Sindangkerta" {{ 'selected' if kecamatan=='Sindangkerta' else '' }}>
+                                        Sindangkerta</option>
+                                </optgroup>
+
+                                <optgroup label="Kota Cimahi (3 Kecamatan)">
+                                    <option value="Cimahi Selatan" {{ 'selected' if kecamatan=='Cimahi Selatan' else ''
+                                        }}>Cimahi Selatan</option>
+                                    <option value="Cimahi Tengah" {{ 'selected' if kecamatan=='Cimahi Tengah' else ''
+                                        }}>Cimahi Tengah</option>
+                                    <option value="Cimahi Utara" {{ 'selected' if kecamatan=='Cimahi Utara' else '' }}>
+                                        Cimahi Utara</option>
+                                </optgroup>
+
+                                <optgroup label="Sumedang Barat (5 Kecamatan)">
+                                    <option value="Cimanggung" {{ 'selected' if kecamatan=='Cimanggung' else '' }}>
+                                        Cimanggung</option>
+                                    <option value="Jatinangor" {{ 'selected' if kecamatan=='Jatinangor' else '' }}>
+                                        Jatinangor</option>
+                                    <option value="Pamulihan" {{ 'selected' if kecamatan=='Pamulihan' else '' }}>
+                                        Pamulihan</option>
+                                    <option value="Sukasari" {{ 'selected' if kecamatan=='Sukasari' else '' }}>Sukasari
+                                    </option>
+                                    <option value="Tanjungsari" {{ 'selected' if kecamatan=='Tanjungsari' else '' }}>
+                                        Tanjungsari</option>
+                                </optgroup>
 
                             </select>
                         </label>
@@ -88,16 +253,18 @@
                     <p style="color: red; margin-top: 15px; font-size: 13px;">{{ error }}</p>
                     {% endif %}
 
-                    {% if show_img_container %}
+                    {% if show_map %}
                     <div
                         style="margin-top: 30px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                         <span
                             style="font-size: 16px; font-weight: 600; color: #333; display: block; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;">Laporan
                             Kalkulasi Luas</span>
-                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Pra-Observasi (Sebelum):</strong> <br />{{
-                            pre_period }}</p>
-                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Observasi (Sesudah):</strong> <br />{{
-                            post_period }}</p>
+                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Pra-Observasi (Sebelum):</strong>
+                            <br />{{ pre_period }}
+                        </p>
+                        <p style="font-size: 12px; margin: 5px 0;"><strong>Periode Observasi (Sesudah):</strong>
+                            <br />{{ post_period }}
+                        </p>
 
                         <p style="font-size: 13px; margin: 15px 0 0 0; font-weight: 600;">Total Luas Terdampak:</p>
                         <h2 style="font-size: 24px; color: #0f52ba; margin: 0; padding: 0;">{{ luas_ha }} Ha</h2>
@@ -114,39 +281,77 @@
                 </div>
 
                 <div class="images-container">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <h4>Peta Konteks Lokasi (Bandung Raya)</h4>
-                        <img src="{{ url_peta_konteks }}"
-                            style="width: 50%; max-height: 300px; object-fit: contain; border: 1px solid #ddd;">
+                    {% if show_map %}
+                    <div id="map-container">
+                        <div id="flood-map"></div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                        <div>
-                            <h5>SAR (VH) Sebelum Banjir</h5>
-                            <img src="{{ url_sar_sebelum }}" style="width:100%;">
-                        </div>
-                        <div>
-                            <h5>SAR (VH) Pasca Banjir</h5>
-                            <img src="{{ url_sar_sesudah }}" style="width:100%;">
-                        </div>
-                        <div>
-                            <h5>SAR Masked (Genangan)</h5>
-                            <img src="{{ url_sar_masked }}" style="width:100%; border: 2px solid #0f52ba;">
-                        </div>
+                    <!-- Perbandingan Visual -->
+                    <div class="section-title">Perbandingan Visual (SAR)</div>
+                    <button class="btn-download-all" id="btn-download-all" title="Download semua gambar">
+                        📥 Download Semua Gambar
+                    </button>
 
-                        <div>
-                            <h5>Optik RGB Basemap (Sebelum)</h5>
-                            <img src="{{ url_rgb_sebelum }}" style="width:100%;">
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h4>SAR VH (Pra-Banjir)</h4>
+                            <img id="thumb-sar-sebelum" src="{{ thumb_sar_sebelum }}" alt="SAR Sebelum Banjir">
+                            <a class="btn-download" id="dl-sar-sebelum" href="{{ thumb_sar_sebelum }}"
+                                download="sar_sebelum_{{ kecamatan }}.png">📥 Download</a>
                         </div>
-                        <div>
-                            <h5>Optik RGB Basemap (Pasca)</h5>
-                            <img src="{{ url_rgb_sesudah }}" style="width:100%;">
+                        <div class="comparison-card">
+                            <h4>SAR VH (Pasca-Banjir)</h4>
+                            <img id="thumb-sar-sesudah" src="{{ thumb_sar_sesudah }}" alt="SAR Sesudah Banjir">
+                            <a class="btn-download" id="dl-sar-sesudah" href="{{ thumb_sar_sesudah }}"
+                                download="sar_sesudah_{{ kecamatan }}.png">📥 Download</a>
                         </div>
-                        <div>
-                            <h5>Optik RGB Masked (Genangan)</h5>
-                            <img src="{{ url_rgb_masked }}" style="width:100%; border: 2px solid #0f52ba;">
+                        <div class="comparison-card border-highlight">
+                            <h4>SAR Masked (Genangan)</h4>
+                            <img id="thumb-sar-masked" src="{{ thumb_sar_masked }}" alt="SAR Masked Banjir">
+                            <a class="btn-download" id="dl-sar-masked" href="{{ thumb_sar_masked }}"
+                                download="sar_masked_{{ kecamatan }}.png">📥 Download</a>
                         </div>
                     </div>
+
+                    <!-- [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h4>Optik RGB Sentinel-2 (Basemap)</h4>
+                            <img id="thumb-rgb-basemap" src="{{ thumb_rgb_basemap }}" alt="RGB Basemap">
+                            <a class="btn-download" id="dl-rgb-basemap" href="{{ thumb_rgb_basemap }}"
+                                download="rgb_basemap_{{ kecamatan }}.png">📥 Download</a>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>Flood Mask (Genangan)</h4>
+                            <img id="thumb-flood-mask" src="{{ thumb_flood_mask }}" alt="Flood Mask">
+                            <a class="btn-download" id="dl-flood-mask" href="{{ thumb_flood_mask }}"
+                                download="flood_mask_{{ kecamatan }}.png">📥 Download</a>
+                        </div>
+                        <div class="comparison-card border-highlight">
+                            <h4>RGB Masked (Genangan)</h4>
+                            <img id="thumb-rgb-masked" src="{{ thumb_rgb_masked }}" alt="RGB Masked Banjir">
+                            <a class="btn-download" id="dl-rgb-masked" href="{{ thumb_rgb_masked }}"
+                                download="rgb_masked_{{ kecamatan }}.png">📥 Download</a>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Flood Mask tersendiri (dipindah dari grid RGB yang dinonaktifkan) -->
+                    <div class="comparison-grid">
+                        <div class="comparison-card border-highlight">
+                            <h4>Flood Mask (Genangan)</h4>
+                            <img id="thumb-flood-mask" src="{{ thumb_flood_mask }}" alt="Flood Mask">
+                            <a class="btn-download" id="dl-flood-mask" href="{{ thumb_flood_mask }}"
+                                download="flood_mask_{{ kecamatan }}.png">📥 Download</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="map-placeholder">
+                        <i class='bx bx-map-alt'></i>
+                        <p>Pilih lokasi kecamatan dan rentang tanggal observasi, lalu tekan <strong>Eksekusi
+                                GEE</strong> untuk memulai analisis peta interaktif.</p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -166,7 +371,7 @@
         /* Konfigurasi Input Rentang Waktu (Sentinel-1 diluncurkan April 2014) */
         window.addEventListener("DOMContentLoaded", () => {
             const dateInputs = document.querySelectorAll(".select-date[type='date']");
-            const minDate = "2014-10-01"; // Citra Sentinel-1 mulai diakses publik secara stabil akhir 2014
+            const minDate = "2014-10-01";
 
             let today = new Date();
             let maxDate = today.toISOString().split('T')[0];
@@ -176,6 +381,307 @@
                 input.max = maxDate;
             });
         });
+
+        {% if show_map %}
+
+        /* Inisialisasi Peta Leaflet Interaktif */
+
+        (function () {
+            // Data dari Flask/Jinja2
+            const mapCenter = {{ map_center | safe
+        }};
+        const roiBounds = {{ roi_bounds | safe }};
+        const roiGeoJSON = {{ roi_geojson | safe }};
+        const floodBoundaryGeoJSON = {{ flood_boundary_geojson | safe }};
+        const bandungRayaGeoJSON = {{ bandung_raya_geojson | safe }};
+
+        const tileSarSebelum = "{{ tile_sar_sebelum }}";
+        const tileSarSesudah = "{{ tile_sar_sesudah }}";
+        const tileSarMasked = "{{ tile_sar_masked }}";
+        const tileFloodMask = "{{ tile_flood_mask }}";
+        // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+        // const tileRgbBasemap = "{{ tile_rgb_basemap }}";
+        // const tileRgbMasked = "{{ tile_rgb_masked }}";
+
+        // Inisialisasi Peta
+        const map = L.map('flood-map', {
+            center: mapCenter,
+            zoom: 13,
+            zoomControl: true
+        });
+
+        // === BASE LAYER (hanya OpenStreetMap) ===
+        const osmBase = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 18
+        });
+
+        // Default: OpenStreetMap sebagai base
+        osmBase.addTo(map);
+
+        // === OVERLAY LAYERS (SAR/Optik + GeoJSON) ===
+        // SAR & Optik sebagai overlay (area luar ROI tetap OSM)
+        const sarSebelumLayer = L.tileLayer(tileSarSebelum, {
+            attribution: 'Google Earth Engine - Sentinel-1 SAR',
+            maxZoom: 18,
+            opacity: 1
+        });
+
+        const sarSesudahLayer = L.tileLayer(tileSarSesudah, {
+            attribution: 'Google Earth Engine - Sentinel-1 SAR',
+            maxZoom: 18,
+            opacity: 1
+        });
+
+        // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+        // const rgbBasemapLayer = L.tileLayer(tileRgbBasemap, {
+        //     attribution: 'Google Earth Engine - Sentinel-2 RGB',
+        //     maxZoom: 18,
+        //     opacity: 1
+        // });
+
+        // Flood Mask overlay (genangan biru)
+        const floodMaskOverlay = L.tileLayer(tileFloodMask, {
+            attribution: 'GEE Flood Detection',
+            maxZoom: 18,
+            opacity: 1
+        });
+
+        // ROI Boundary (Batas Kecamatan — merah)
+        const roiLayer = L.geoJSON(roiGeoJSON, {
+            style: {
+                color: '#FF0000',
+                weight: 3,
+                fillColor: '#FF0000',
+                fillOpacity: 0.05,
+                dashArray: '5, 5'
+            }
+        });
+
+        // Batas Administrasi Bandung Raya (hitam)
+        const adminLayer = L.geoJSON(bandungRayaGeoJSON, {
+            style: {
+                color: '#333333',
+                weight: 1.5,
+                fillColor: 'transparent',
+                fillOpacity: 0
+            },
+            onEachFeature: function (feature, layer) {
+                if (feature.properties && feature.properties.WADMKC) {
+                    layer.bindTooltip(feature.properties.WADMKC, {
+                        permanent: false,
+                        direction: 'center',
+                        className: 'admin-label'
+                    });
+                }
+            }
+        });
+
+        // Tambah overlay default
+        roiLayer.addTo(map);
+        floodMaskOverlay.addTo(map);
+
+        // === LAYER CONTROL ===
+        const baseLayers = {
+            "OpenStreetMap": osmBase
+        };
+
+        const overlayLayers = {
+            "🛰️ SAR VH Pra-Banjir": sarSebelumLayer,
+            "🛰️ SAR VH Pasca-Banjir": sarSesudahLayer,
+            // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+            // "🌍 Optik RGB Sentinel-2": rgbBasemapLayer,
+            "🔵 Genangan Banjir (Flood Mask)": floodMaskOverlay,
+            "🔴 Batas ROI Kecamatan": roiLayer,
+            "⬛ Batas Administrasi Bandung Raya": adminLayer
+        };
+
+        L.control.layers(baseLayers, overlayLayers, {
+            collapsed: false,
+            position: 'topright'
+        }).addTo(map);
+
+        // === LEGENDA ===
+        const legend = L.control({ position: 'bottomright' });
+        legend.onAdd = function () {
+            const div = L.DomUtil.create('div', 'layer-info');
+            div.innerHTML = `
+                    <h4>Legenda</h4>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #0066FF; opacity: 0.7;"></div>
+                        <span>Genangan banjir terdeteksi</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: transparent; border: 2px dashed #FF0000;"></div>
+                        <span>Batas ROI kecamatan</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: transparent; border: 1.5px solid #333;"></div>
+                        <span>Batas administrasi</span>
+                    </div>
+                `;
+            return div;
+        };
+        legend.addTo(map);
+
+        // === SCALE BAR ===
+        L.control.scale({
+            position: 'bottomleft',
+            metric: true,
+            imperial: false,
+            maxWidth: 200
+        }).addTo(map);
+
+        // Helper untuk memasang mini slider independen (Model 3) di dalam Leaflet Layer Control
+        function attachLayerSliders(mapInstance, layerConfigMap) {
+            const container = mapInstance.getContainer().querySelector('.leaflet-control-layers-overlays');
+            if (!container) return;
+
+            const labels = container.querySelectorAll('label');
+            labels.forEach(label => {
+                const span = label.querySelector('span');
+                if (!span) return;
+                const layerName = span.textContent.trim();
+                const config = layerConfigMap[layerName];
+                if (!config || !config.layer) return;
+
+                let wrapper = label.querySelector('.layer-slider-wrap');
+                if (!wrapper) {
+                    wrapper = document.createElement('div');
+                    wrapper.className = 'layer-slider-wrap';
+
+                    L.DomEvent.disableClickPropagation(wrapper);
+                    L.DomEvent.disableScrollPropagation(wrapper);
+                    wrapper.addEventListener('click', e => e.stopPropagation());
+                    wrapper.addEventListener('mousedown', e => e.stopPropagation());
+
+                    const slider = document.createElement('input');
+                    slider.type = 'range';
+                    slider.min = '0';
+                    slider.max = '100';
+                    slider.value = config.initialOpacity !== undefined ? config.initialOpacity : 80;
+
+                    const valDisplay = document.createElement('span');
+                    valDisplay.className = 'slider-pct';
+                    valDisplay.textContent = slider.value + '%';
+
+                    slider.addEventListener('input', function (e) {
+                        e.stopPropagation();
+                        const val = parseInt(this.value);
+                        valDisplay.textContent = val + '%';
+                        const opacity = val / 100;
+                        if (config.isVector) {
+                            config.layer.setStyle({
+                                opacity: opacity,
+                                fillOpacity: Math.min(opacity, 0.4)
+                            });
+                        } else if (config.layer.setOpacity) {
+                            config.layer.setOpacity(opacity);
+                        }
+                    });
+
+                    wrapper.appendChild(slider);
+                    wrapper.appendChild(valDisplay);
+                    label.appendChild(wrapper);
+                }
+
+                const checkbox = label.querySelector('input[type="checkbox"]');
+                const updateVisibility = () => {
+                    const isLayerOnMap = mapInstance.hasLayer(config.layer);
+                    wrapper.style.display = isLayerOnMap ? 'flex' : 'none';
+                };
+
+                if (checkbox) {
+                    checkbox.addEventListener('change', () => {
+                        setTimeout(updateVisibility, 50);
+                    });
+                }
+                updateVisibility();
+            });
+        }
+
+        // Pasang mini slider independen HANYA ke layer raster/citra (Model 3)
+        // Batas ROI dan Batas Administrasi tidak diberi slider agar garis vektor selalu tajam
+        const layerConfigs = {
+            "🛰️ SAR VH Pra-Banjir": { layer: sarSebelumLayer, initialOpacity: 100, isVector: false },
+            "🛰️ SAR VH Pasca-Banjir": { layer: sarSesudahLayer, initialOpacity: 100, isVector: false },
+            // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+            // "🌍 Optik RGB Sentinel-2": { layer: rgbBasemapLayer, initialOpacity: 100, isVector: false },
+            "🔵 Genangan Banjir (Flood Mask)": { layer: floodMaskOverlay, initialOpacity: 100, isVector: false }
+        };
+        attachLayerSliders(map, layerConfigs);
+
+        // FIT BOUNDS ke ROI 
+        if (roiBounds && roiBounds.coordinates) {
+            const coords = roiBounds.coordinates[0];
+            const lats = coords.map(c => c[1]);
+            const lngs = coords.map(c => c[0]);
+            const bounds = [
+                [Math.min(...lats), Math.min(...lngs)],
+                [Math.max(...lats), Math.max(...lngs)]
+            ];
+            map.fitBounds(bounds, { padding: [30, 30] });
+        }
+
+        // Paksa Leaflet resize setelah container siap
+        setTimeout(() => { map.invalidateSize(); }, 200);
+
+        // === DOWNLOAD HELPER (Blob fetch untuk mencegah tab baru / navigasi) ===
+        async function downloadImageFile(url, filename) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+            } catch (e) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.target = '_blank';
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+
+        // Event listeners untuk tombol download individual
+        document.querySelectorAll('.btn-download').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const url = this.getAttribute('href');
+                const filename = this.getAttribute('download') || 'satellite_image.png';
+                if (url) downloadImageFile(url, filename);
+            });
+        });
+
+        // === DOWNLOAD ALL (comparison images) ===
+        document.getElementById('btn-download-all').addEventListener('click', function () {
+            const items = [
+                { id: 'thumb-sar-sebelum', name: 'sar_sebelum_{{ kecamatan }}.png' },
+                { id: 'thumb-sar-sesudah', name: 'sar_sesudah_{{ kecamatan }}.png' },
+                { id: 'thumb-sar-masked', name: 'sar_masked_{{ kecamatan }}.png' },
+                // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+                // { id: 'thumb-rgb-basemap', name: 'rgb_basemap_{{ kecamatan }}.png' },
+                { id: 'thumb-flood-mask', name: 'flood_mask_{{ kecamatan }}.png' },
+                // { id: 'thumb-rgb-masked', name: 'rgb_masked_{{ kecamatan }}.png' }
+            ];
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    const img = document.getElementById(item.id);
+                    if (img && img.src) {
+                        downloadImageFile(img.src, item.name);
+                    }
+                }, index * 400);
+            });
+        });
+        }) ();
+        {% endif %}
     </script>
 </body>
 

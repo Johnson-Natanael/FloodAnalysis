@@ -45,7 +45,8 @@ body {
 }
 
 .sidebar-group:hover:not(.active) {
-    background-color: #1e5382; /* Efek menyala sedikit saat di-hover kursor */
+    background-color: #1e5382;
+    /* Efek menyala saat dihover kursor */
     border-radius: 5px;
 }
 
@@ -105,13 +106,11 @@ body {
     overflow: hidden;
     transition: max-height .25s ease;
     z-index: 999;
-    /* supaya menimpa elemen lain */
 }
 
 .select-menu.active .options {
     display: block;
     max-height: 200px;
-    /* atau sesuai jumlah item */
     overflow-y: auto;
     /* width: 200px; */
 }
@@ -182,34 +181,291 @@ body {
     color: #103A5E;
 }
 
+/* ================================================================
+   Images / Detail Main Content Container
+   ================================================================ */
 .images-container {
-    width: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; 
-    align-items: center;
-    row-gap: 20px;
-    overflow-y: auto;          
-    max-height: calc(100vh - 44px); 
-    padding: 20px 0px;           
+    align-items: stretch;
+    overflow-y: auto;
+    height: calc(100vh - 44px);
+    max-height: calc(100vh - 44px);
+    padding: 15px 30px 40px 30px;
     box-sizing: border-box;
+    row-gap: 0;
 }
 
-#desc-kosong {
-    display: block;
-    text-align: center;
+/* Mencegah flexbox menghimpit elemen apapun di dalam images-container */
+.images-container > * {
+    flex-shrink: 0;
+}
+
+.titleResult {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+/* ================================================================
+   Peta Interaktif Leaflet
+   ================================================================ */
+#detail-map {
     width: 100%;
+    height: 480px;
+    min-height: 480px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px 0 10px 0;
+    background: #eef2f5;
+    position: relative;
+}
+
+/* Pastikan tile Leaflet tidak terganggu CSS img */
+#detail-map img {
+    max-width: none !important;
+    max-height: none !important;
+    width: auto;
+}
+
+.section-title {
+    font-size: 16px;
     font-weight: 600;
-    color: #103A5E;
+    color: #333;
+    margin: 20px 0 10px 0;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #0f52ba;
+    text-align: left;
+}
+
+/* Status info peta */
+.map-status {
+    font-size: 11px;
+    color: #666;
+    margin: 5px 0 15px 0;
     font-style: italic;
+    text-align: left;
 }
 
-.images-container img {
-    width: 650px;
+/* Legenda peta */
+.map-legend {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.6;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    max-width: 200px;
+    text-align: left;
+    border: 1px solid #ddd;
 }
 
-#image-title {
-    width: 100%;
+.map-legend h4 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 3px 0;
+}
+
+.legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    flex-shrink: 0;
+}
+
+/* Layer Control */
+.leaflet-control-layers {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    font-size: 11px !important;
+    padding: 10px 14px !important;
+    border: 1px solid #ddd !important;
+    font-family: 'Poppins', sans-serif !important;
+    min-width: 210px;
+}
+
+.leaflet-control-layers-overlays label {
+    margin-bottom: 4px !important;
+}
+
+/* Layer Control Dynamic Sliders (Model 3) */
+.layer-slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 0 6px 20px;
+    font-size: 10px;
+    color: #555;
+    animation: fadeInSlider 0.2s ease-in-out;
+}
+
+@keyframes fadeInSlider {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.layer-slider-wrap input[type="range"] {
+    flex: 1;
+    height: 4px;
+    accent-color: #0f52ba;
+    cursor: pointer;
+    margin: 0;
+    min-width: 80px;
+}
+
+.layer-slider-wrap .slider-pct {
+    min-width: 28px;
+    text-align: right;
     font-weight: 600;
     color: #103A5E;
+    font-size: 10px;
+}
+
+/* Opacity Control */
+.opacity-control {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 14px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 11px;
+    min-width: 180px;
+    border: 1px solid #ddd;
+    font-family: 'Poppins', sans-serif;
+}
+
+.opacity-control h4 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
+}
+
+.opacity-control input[type='range'] {
+    width: 100%;
+    margin: 4px 0;
+    accent-color: #0f52ba;
+    cursor: pointer;
+}
+
+.opacity-control .opacity-value {
+    text-align: right;
+    font-size: 11px;
+    color: #666;
+}
+
+/* ================================================================
+   Side-by-Side Comparison Grid
+   ================================================================ */
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.comparison-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.comparison-card h4 {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    color: #444;
+    font-weight: 600;
+}
+
+.comparison-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    object-fit: contain;
+    border: 1px solid #eee;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.comparison-card img:hover {
+    transform: scale(1.02);
+}
+
+.border-highlight {
+    border: 2px solid #0f52ba !important;
+}
+
+/* Tombol download individual */
+.btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+    padding: 4px 10px;
+    font-size: 10px;
+    background: #103A5E;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Poppins';
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-download:hover {
+    background: #1e5382;
+}
+
+/* Tombol download semua */
+.btn-download-all {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 12px;
+    background: #0f52ba;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-weight: 500;
+    margin-bottom: 15px;
+    transition: background 0.2s;
+}
+
+.btn-download-all:hover {
+    background: #103A5E;
+}
+
+.admin-label {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #999;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
 }

@@ -1,3 +1,7 @@
+"""
+Script ini menghasilkan gambar berbasis Google Earth Engine
+untuk analisis banjir historis
+"""
 import ee
 import requests
 import os
@@ -188,9 +192,7 @@ def get_flood_analysis(kecamatan_name, pre_start, pre_end, post_start, post_end)
 
     return luas_m2
 
-# =========================================================================
-# EKSEKUSI LOOPING BERDASARKAN DICTIONARY
-# =========================================================================
+# Eksekusi looping berdasarkan dictionary
 if __name__ == "__main__":
     init_ee()
     

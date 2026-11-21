@@ -5,44 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Analisis Banjir Bandung Raya</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/predictStyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/dashboardStyle.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        .summary-cards {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .card {
-            flex: 1;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        .card h3 {
-            margin: 0;
-            font-size: 14px;
-            color: #666;
-            font-weight: 500;
-        }
-        .card .value {
-            font-size: 28px;
-            color: #0f52ba;
-            font-weight: 700;
-            margin-top: 10px;
-        }
-        .chart-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            height: 400px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -60,10 +24,10 @@
                 </div>
             </div>
 
-            <div class="main-content" style="flex-direction: column; padding: 20px; overflow-y: auto;">
-                <div style="margin-bottom: 20px;">
-                    <h2 style="margin: 0; font-size: 22px; color: #333;">Sistem Pemantauan Genangan Banjir (Time-Series)</h2>
-                    <p style="margin: 5px 0 0 0; font-size: 14px; color: #666;">
+            <div class="main-content">
+                <div class="dashboard-intro">
+                    <h2>Sistem Pemantauan Genangan Banjir (Time-Series)</h2>
+                    <p>
                         Platform ini memvisualisasikan data ekstraksi luasan banjir di Cekungan Bandung menggunakan citra Radar Sentinel-1 (Google Earth Engine).
                     </p>
                 </div>

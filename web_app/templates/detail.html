@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
@@ -8,76 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/detailStyle.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/predictStyle.css') }}">
-    <style>
-        /* Desain Grid Baru untuk Mengakomodasi 7 Gambar */
-        .context-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 25px;
-            background: #fff;
-            padding: 15px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-        }
-
-        .context-box {
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .context-box img {
-            width: 100%;
-            height: auto;
-            border-radius: 4px;
-            border: 1px solid #eee;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin: 20px 0 10px 0;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #0f52ba;
-        }
-
-        .grid-3-col {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .grid-box {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 12px;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        .grid-box h4 {
-            margin: 0 0 10px 0;
-            font-size: 13px;
-            color: #444;
-            font-weight: 600;
-        }
-
-        .grid-box img {
-            width: 100%;
-            height: auto;
-            border-radius: 4px;
-            object-fit: contain;
-            border: 1px solid #eee;
-        }
-
-        .border-highlight {
-            border: 2px solid #0f52ba !important;
-        }
-    </style>
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -144,45 +77,54 @@
                         <span class="curImage" id="img-title" style="font-weight: bold;">Peta Genangan Historis</span>
                     </div>
 
-                    <div class="section-title">1. Peta Konteks Regional</div>
-                    <div class="context-container">
-                        <div class="context-box">
-                            <h4>Batas Administrasi & Lokasi ROI (Merah)</h4>
-                            <img id="img-konteks" src="" alt="Peta Konteks Bandung Raya">
-                        </div>
-                    </div>
+                    <!-- Peta Interaktif Leaflet -->
+                    <div class="section-title">1. Peta Interaktif — Genangan Banjir</div>
+                    <div id="detail-map"></div>
+                    <p class="map-status" id="map-status">Memuat data peta...</p>
 
-                    <div class="section-title">2. Analisis Sensor Radar (Sentinel-1 SAR)</div>
-                    <div class="grid-3-col">
-                        <div class="grid-box">
+                    <!-- Perbandingan Visual -->
+                    <div class="section-title">2. Perbandingan Visual (SAR)</div>
+                    <button class="btn-download-all" id="btn-download-all" title="Download semua gambar kejadian ini">
+                        📥 Download Semua Gambar
+                    </button>
+
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
                             <h4>SAR VH (Pra-Banjir)</h4>
                             <img id="img-sar-sebelum" src="" alt="SAR Sebelum Banjir">
+                            <a class="btn-download" id="dl-sar-sebelum" href="#" download>📥 Download</a>
                         </div>
-                        <div class="grid-box">
+                        <div class="comparison-card">
                             <h4>SAR VH (Pasca-Banjir)</h4>
                             <img id="img-sar-sesudah" src="" alt="SAR Sesudah Banjir">
+                            <a class="btn-download" id="dl-sar-sesudah" href="#" download>📥 Download</a>
                         </div>
-                        <div class="grid-box border-highlight">
-                            <h4>SAR Masked (Area yang Ditandai Sebagai Banjir)</h4>
+                        <div class="comparison-card border-highlight">
+                            <h4>SAR Masked (Genangan)</h4>
                             <img id="img-sar-masked" src="" alt="SAR Masked Banjir">
+                            <a class="btn-download" id="dl-sar-masked" href="#" download>📥 Download</a>
                         </div>
                     </div>
 
-                    <div class="section-title">3. Visualisasi Lanskap Optik (Sentinel-2 True Color RGB)</div>
-                    <div class="grid-3-col">
-                        <div class="grid-box">
-                            <h4>S2 RGB Basemap (Kondisi Acuan)</h4>
-                            <img id="img-rgb-sebelum" src="" alt="RGB Sebelum Banjir">
+                    <!-- [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h4>Optik RGB Sentinel-2 (Basemap)</h4>
+                            <img id="img-rgb-sebelum" src="" alt="RGB Basemap">
+                            <a class="btn-download" id="dl-rgb-sebelum" href="#" download>📥 Download</a>
                         </div>
-                        <div class="grid-box">
-                            <h4>S2 RGB Basemap (Kondisi Acuan)</h4>
-                            <img id="img-rgb-sesudah" src="" alt="RGB Sesudah Banjir">
+                        <div class="comparison-card">
+                            <h4>Optik RGB Sentinel-2 (Basemap)</h4>
+                            <img id="img-rgb-sesudah" src="" alt="RGB Basemap">
+                            <a class="btn-download" id="dl-rgb-sesudah" href="#" download>📥 Download</a>
                         </div>
-                        <div class="grid-box border-highlight">
-                            <h4>RGB Masked (Area yang Ditandai Sebagai Banjir)</h4>
+                        <div class="comparison-card border-highlight">
+                            <h4>RGB Masked (Genangan)</h4>
                             <img id="img-rgb-masked" src="" alt="RGB Masked Banjir">
+                            <a class="btn-download" id="dl-rgb-masked" href="#" download>📥 Download</a>
                         </div>
                     </div>
+                    -->
                 </div>
             </div>
         </div>
@@ -191,8 +133,9 @@
     <script>
         const floodData = {{ flood_data | tojson | safe }};
         const basePath = "{{ url_for('static', filename='assets/predictions/') }}";
+        const geoJsonBasePath = "{{ url_for('static', filename='assets/geojson/') }}";
 
-        // DOM Referensi Element
+        // DOM References
         const selTahun = document.getElementById('filter-tahun');
         const selKejadian = document.getElementById('filter-kejadian');
         const selSkala = document.getElementById('filter-skala');
@@ -203,18 +146,354 @@
         const statHa = document.getElementById('stat-ha');
         const statM2 = document.getElementById('stat-m2');
         const imgTitle = document.getElementById('img-title');
+        const mapStatus = document.getElementById('map-status');
 
-        // Element Gambar Baru (7 Gambar)
-        const imgKonteks = document.getElementById('img-konteks');
+        // Gambar statis
         const imgSarSebelum = document.getElementById('img-sar-sebelum');
         const imgSarSesudah = document.getElementById('img-sar-sesudah');
         const imgSarMasked = document.getElementById('img-sar-masked');
-        const imgRgbSebelum = document.getElementById('img-rgb-sebelum');
-        const imgRgbSesudah = document.getElementById('img-rgb-sesudah');
-        const imgRgbMasked = document.getElementById('img-rgb-masked');
+        // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+        // const imgRgbSebelum = document.getElementById('img-rgb-sebelum');
+        // const imgRgbSesudah = document.getElementById('img-rgb-sesudah');
+        // const imgRgbMasked = document.getElementById('img-rgb-masked');
+
+        // Download buttons
+        const dlSarSebelum = document.getElementById('dl-sar-sebelum');
+        const dlSarSesudah = document.getElementById('dl-sar-sesudah');
+        const dlSarMasked = document.getElementById('dl-sar-masked');
+        // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+        // const dlRgbSebelum = document.getElementById('dl-rgb-sebelum');
+        // const dlRgbSesudah = document.getElementById('dl-rgb-sesudah');
+        // const dlRgbMasked = document.getElementById('dl-rgb-masked');
 
         let currentEvent = null;
 
+        // Koordinat pusat tiap kecamatan (lat, lon)
+        const kecamatanCoords = {
+            'Baleendah': [-6.988, 107.626],
+            'Pasteur': [-6.886, 107.589],
+            'Dayeuhkolot': [-6.988, 107.608],
+            'Bojongsoang': [-6.989, 107.643],
+            'Rancaekek': [-6.955, 107.753],
+            'Cicaheum': [-6.912, 107.653],
+            'Cilengkrang': [-6.864, 107.701],
+            'Arjasari': [-7.068, 107.632],
+            'Kutawaringin': [-6.933, 107.505],
+            'Cileunyi': [-6.924, 107.750],
+            'Soreang': [-7.027, 107.529],
+            'Jatinangor': [-6.924, 107.777],
+            'Sukasari': [-6.877, 107.773],
+            'BandungRaya': [-6.920, 107.620]
+        };
+
+        // Leaflet map setup
+        const detailMap = L.map('detail-map', {
+            center: [-6.920, 107.620],
+            zoom: 11,
+            zoomControl: true
+        });
+
+        // BASE LAYER (hanya OpenStreetMap)
+        const osmBase = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 18
+        }).addTo(detailMap);
+
+        // Scale bar
+        L.control.scale({
+            position: 'bottomleft',
+            metric: true,
+            imperial: false
+        }).addTo(detailMap);
+
+        // OVERLAY LAYERS (akan di-update per kejadian) 
+        let floodLayer = null;         // GeoJSON genangan banjir (fallback)
+        let floodOverlay = null;       // PNG raster flood mask
+        let roiLayer = null;           // GeoJSON batas ROI
+        let sarSebelumOverlay = null;  // PNG image overlay SAR sebelum
+        let sarSesudahOverlay = null;  // PNG image overlay SAR sesudah
+        // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+        // let rgbSebelumOverlay = null;  // PNG image overlay RGB sebelum
+        let layerControl = null;       // Layer control reference
+        let adminLayer = null;         // GeoJSON batas administrasi Bandung Raya
+        let adminGeoJSONData = null;   // In-memory cache data GeoJSON
+
+        // Load batas administrasi Bandung Raya secara asinkron dari file lokal (non-blocking)
+        async function loadAdminBoundary() {
+            if (!adminGeoJSONData) {
+                adminGeoJSONData = await loadGeoJSON(`${geoJsonBasePath}bandung_raya_admin.geojson`);
+            }
+            if (adminGeoJSONData && !adminLayer) {
+                adminLayer = L.geoJSON(adminGeoJSONData, {
+                    style: {
+                        color: '#333333',
+                        weight: 1.5,
+                        fillColor: 'transparent',
+                        fillOpacity: 0
+                    },
+                    onEachFeature: function (feature, layer) {
+                        if (feature.properties && feature.properties.WADMKC) {
+                            layer.bindTooltip(feature.properties.WADMKC, {
+                                permanent: false,
+                                direction: 'center',
+                                className: 'admin-label'
+                            });
+                        }
+                    }
+                });
+            }
+            return adminLayer;
+        }
+
+        // Legenda (fix)
+        const legend = L.control({ position: 'bottomright' });
+        legend.onAdd = function () {
+            const div = L.DomUtil.create('div', 'map-legend');
+            div.innerHTML = `
+                <h4>Legenda</h4>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #0066FF; opacity: 0.8;"></div>
+                    <span>Genangan banjir (Flood Mask)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: transparent; border: 2px dashed #FF0000;"></div>
+                    <span>Batas ROI kecamatan</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: transparent; border: 1.5px solid #333;"></div>
+                    <span>Batas administrasi</span>
+                </div>
+            `;
+            return div;
+        };
+        legend.addTo(detailMap);
+
+        // fungsi untuk mini slider independen di dalam Leaflet Layer Control
+        function attachLayerSliders(map, layerConfigMap) {
+            const container = map.getContainer().querySelector('.leaflet-control-layers-overlays');
+            if (!container) return;
+
+            const labels = container.querySelectorAll('label');
+            labels.forEach(label => {
+                const span = label.querySelector('span');
+                if (!span) return;
+                const layerName = span.textContent.trim();
+                const config = layerConfigMap[layerName];
+                if (!config || !config.layer) return;
+
+                let wrapper = label.querySelector('.layer-slider-wrap');
+                if (!wrapper) {
+                    wrapper = document.createElement('div');
+                    wrapper.className = 'layer-slider-wrap';
+
+                    L.DomEvent.disableClickPropagation(wrapper);
+                    L.DomEvent.disableScrollPropagation(wrapper);
+                    wrapper.addEventListener('click', e => e.stopPropagation());
+                    wrapper.addEventListener('mousedown', e => e.stopPropagation());
+
+                    const slider = document.createElement('input');
+                    slider.type = 'range';
+                    slider.min = '0';
+                    slider.max = '100';
+                    slider.value = config.initialOpacity !== undefined ? config.initialOpacity : 80;
+
+                    const valDisplay = document.createElement('span');
+                    valDisplay.className = 'slider-pct';
+                    valDisplay.textContent = slider.value + '%';
+
+                    slider.addEventListener('input', function (e) {
+                        e.stopPropagation();
+                        const val = parseInt(this.value);
+                        valDisplay.textContent = val + '%';
+                        const opacity = val / 100;
+                        if (config.isVector) {
+                            config.layer.setStyle({
+                                opacity: opacity,
+                                fillOpacity: opacity * 0.6
+                            });
+                        } else if (config.layer.setOpacity) {
+                            config.layer.setOpacity(opacity);
+                        }
+                    });
+
+                    wrapper.appendChild(slider);
+                    wrapper.appendChild(valDisplay);
+                    label.appendChild(wrapper);
+                }
+
+                const checkbox = label.querySelector('input[type="checkbox"]');
+                const updateVisibility = () => {
+                    const isLayerOnMap = map.hasLayer(config.layer);
+                    wrapper.style.display = isLayerOnMap ? 'flex' : 'none';
+                };
+
+                if (checkbox) {
+                    checkbox.addEventListener('change', () => {
+                        setTimeout(updateVisibility, 50);
+                    });
+                }
+                updateVisibility();
+            });
+        }
+
+        async function loadGeoJSON(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return await response.json();
+            } catch (e) {
+                console.warn(`Gagal memuat GeoJSON: ${url}`, e);
+                return null;
+            }
+        }
+
+        async function updateMap(eventData, skala) {
+            // Hapus semua overlay layer lama
+            if (floodLayer) { detailMap.removeLayer(floodLayer); floodLayer = null; }
+            if (floodOverlay) { detailMap.removeLayer(floodOverlay); floodOverlay = null; }
+            if (roiLayer) { detailMap.removeLayer(roiLayer); roiLayer = null; }
+            if (sarSebelumOverlay) { detailMap.removeLayer(sarSebelumOverlay); sarSebelumOverlay = null; }
+            if (sarSesudahOverlay) { detailMap.removeLayer(sarSesudahOverlay); sarSesudahOverlay = null; }
+            // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+            // if (rgbSebelumOverlay) { detailMap.removeLayer(rgbSebelumOverlay); rgbSebelumOverlay = null; }
+            if (layerControl) { detailMap.removeControl(layerControl); layerControl = null; }
+
+            const evId = eventData.id;
+            let prefix, zoomLevel;
+
+            if (skala === 'fokus') {
+                prefix = eventData.daerah;
+                zoomLevel = 13;
+            } else {
+                prefix = eventData.kode_raya;
+                zoomLevel = 11;
+            }
+
+            mapStatus.textContent = `Memuat data ${prefix}...`;
+
+            // Load flood GeoJSON (sebagai fallback atau alternatif layer)
+            const floodGeoJSON = await loadGeoJSON(`${geoJsonBasePath}${evId}_${prefix}_flood.geojson`);
+            if (floodGeoJSON && floodGeoJSON.features && floodGeoJSON.features.length > 0) {
+                floodLayer = L.geoJSON(floodGeoJSON, {
+                    style: {
+                        stroke: false,
+                        fillColor: '#0066FF',
+                        fillOpacity: 0.85
+                    },
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup('<b>Area Terdeteksi Genangan Banjir</b><br>Metode: Sentinel-1 SAR (Backscatter Ratio)');
+                    }
+                });
+            }
+
+            // Load ROI GeoJSON
+            const roiGeoJSON = await loadGeoJSON(`${geoJsonBasePath}${evId}_${prefix}_roi.geojson`);
+            let roiBounds = null;
+
+            if (roiGeoJSON) {
+                roiLayer = L.geoJSON(roiGeoJSON, {
+                    style: {
+                        color: '#FF0000',
+                        weight: 3,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.05,
+                        dashArray: '5, 5'
+                    }
+                });
+
+                try {
+                    roiBounds = roiLayer.getBounds();
+                } catch (e) {
+                    console.warn('Gagal mendapatkan bounds ROI:', e);
+                }
+            }
+
+            // Buat PNG raster overlays (SAR, Optik, dan Raster Flood Mask asli GEE)
+            if (roiBounds && roiBounds.isValid()) {
+                const cleanPrefix = prefix.replace(/\s+/g, '');
+                const tahun = eventData.tahun;
+
+                sarSebelumOverlay = L.imageOverlay(
+                    `${basePath}${tahun}_sar_sebelum_${cleanPrefix}.png`,
+                    roiBounds, { opacity: 1 }
+                );
+                sarSesudahOverlay = L.imageOverlay(
+                    `${basePath}${tahun}_sar_sesudah_${cleanPrefix}.png`,
+                    roiBounds, { opacity: 1 }
+                );
+                // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+                // rgbSebelumOverlay = L.imageOverlay(
+                //     `${basePath}${tahun}_rgb_sebelum_${cleanPrefix}.png`,
+                //     roiBounds, { opacity: 1 }
+                // );
+
+                // Raster Flood Mask PNG transparan asli dari GEE
+                floodOverlay = L.imageOverlay(
+                    `${basePath}${tahun}_flood_mask_${cleanPrefix}.png`,
+                    roiBounds, { opacity: 1 }
+                );
+            }
+
+            // Prioritaskan citra raster PNG asli GEE, gunakan GeoJSON jika PNG belum ada
+            const activeFloodLayer = floodOverlay || floodLayer;
+
+            // Tambah overlay default ke peta
+            if (roiLayer) roiLayer.addTo(detailMap);
+            if (activeFloodLayer) activeFloodLayer.addTo(detailMap);
+
+            // Muat batas administrasi Bandung Raya secara asinkron dari static GeoJSON (non-blocking)
+            await loadAdminBoundary();
+
+            // LAYER CONTROL (Model 3)
+            const baseLayers = {
+                "OpenStreetMap": osmBase
+            };
+
+            const overlayLayers = {};
+            if (sarSebelumOverlay) overlayLayers["🛰️ SAR VH Pra-Banjir"] = sarSebelumOverlay;
+            if (sarSesudahOverlay) overlayLayers["🛰️ SAR VH Pasca-Banjir"] = sarSesudahOverlay;
+            // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+            // if (rgbSebelumOverlay) overlayLayers["🌍 Optik RGB Sentinel-2"] = rgbSebelumOverlay;
+            if (activeFloodLayer) overlayLayers["🔵 Genangan Banjir (Flood Mask)"] = activeFloodLayer;
+            if (roiLayer) overlayLayers["🔴 Batas ROI Kecamatan"] = roiLayer;
+            if (adminLayer) overlayLayers["⬛ Batas Administrasi Bandung Raya"] = adminLayer;
+
+            layerControl = L.control.layers(baseLayers, overlayLayers, {
+                collapsed: false,
+                position: 'topright'
+            }).addTo(detailMap);
+
+            // Mini slider independen HANYA ke layer raster/citra
+            // Batas ROI dan Batas Administrasi tidak diberi slider agar garis vektor selalu tajam
+            const layerConfigs = {};
+            if (sarSebelumOverlay) layerConfigs["🛰️ SAR VH Pra-Banjir"] = { layer: sarSebelumOverlay, initialOpacity: 100, isVector: false };
+            if (sarSesudahOverlay) layerConfigs["🛰️ SAR VH Pasca-Banjir"] = { layer: sarSesudahOverlay, initialOpacity: 100, isVector: false };
+            // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+            // if (rgbSebelumOverlay) layerConfigs["🌍 Optik RGB Sentinel-2"] = { layer: rgbSebelumOverlay, initialOpacity: 100, isVector: false };
+            if (activeFloodLayer) layerConfigs["🔵 Genangan Banjir (Flood Mask)"] = { layer: activeFloodLayer, initialOpacity: 100, isVector: (activeFloodLayer === floodLayer) };
+            attachLayerSliders(detailMap, layerConfigs);
+
+            // Fit bounds ke ROI
+            setTimeout(() => {
+                detailMap.invalidateSize();
+                try {
+                    if (roiBounds && roiBounds.isValid()) {
+                        detailMap.fitBounds(roiBounds, { padding: [30, 30] });
+                    } else {
+                        const coords = kecamatanCoords[eventData.daerah] || kecamatanCoords['BandungRaya'];
+                        detailMap.setView(coords, zoomLevel);
+                    }
+                } catch (e) {
+                    const coords = kecamatanCoords[eventData.daerah] || kecamatanCoords['BandungRaya'];
+                    detailMap.setView(coords, zoomLevel);
+                }
+            }, 100);
+
+            // Status update
+            mapStatus.textContent = `Data ${prefix} siap: Raster Flood Mask GEE, SAR & Batas ROI`;
+        }
+
+        // FILTER & VISUAL UPDATE LOGIC
         function initTahun() {
             if (!floodData || floodData.length === 0) return;
             const years = [...new Set(floodData.map(item => item.tahun))].sort();
@@ -248,7 +527,7 @@
             currentEvent = floodData.find(item => item.id === selectedEventId);
 
             if (currentEvent) {
-                // 1. Sinkronisasi Data Statistik Rekaman
+                // 1. Statistik
                 statPre.textContent = `${currentEvent.pre_start} s/d ${currentEvent.pre_end}`;
                 statPost.textContent = `${currentEvent.post_start} s/d ${currentEvent.post_end}`;
 
@@ -266,23 +545,79 @@
                     imgTitle.textContent = `Perbandingan Area Makro Bandung Raya`;
                 }
 
-                // 2. Pemetaan Sumber Gambar Secara Dinamis Sesuai Nomenklatur Baru GEE Pipeline
-                // Menghilangkan spasi pada nama file jika ada
+                // 2. Peta interaktif
+                updateMap(currentEvent, skala);
+
+                // 3. Gambar side-by-side
                 let cleanPrefix = prefixSkala.replace(/\s+/g, '');
+                const tahun = currentEvent.tahun;
 
-                imgKonteks.src = `${basePath}${currentEvent.tahun}_peta_konteks_${cleanPrefix}.png`;
+                const imgPaths = {
+                    sar_sebelum: `${basePath}${tahun}_sar_sebelum_${cleanPrefix}.png`,
+                    sar_sesudah: `${basePath}${tahun}_sar_sesudah_${cleanPrefix}.png`,
+                    sar_masked: `${basePath}${tahun}_sar_masked_${cleanPrefix}.png`,
+                    // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+                    // rgb_sebelum: `${basePath}${tahun}_rgb_sebelum_${cleanPrefix}.png`,
+                    // rgb_sesudah: `${basePath}${tahun}_rgb_sesudah_${cleanPrefix}.png`,
+                    // rgb_masked: `${basePath}${tahun}_rgb_masked_${cleanPrefix}.png`
+                };
 
-                imgSarSebelum.src = `${basePath}${currentEvent.tahun}_sar_sebelum_${cleanPrefix}.png`;
-                imgSarSesudah.src = `${basePath}${currentEvent.tahun}_sar_sesudah_${cleanPrefix}.png`;
-                imgSarMasked.src = `${basePath}${currentEvent.tahun}_sar_masked_${cleanPrefix}.png`;
+                imgSarSebelum.src = imgPaths.sar_sebelum;
+                imgSarSesudah.src = imgPaths.sar_sesudah;
+                imgSarMasked.src = imgPaths.sar_masked;
+                // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+                // imgRgbSebelum.src = imgPaths.rgb_sebelum;
+                // imgRgbSesudah.src = imgPaths.rgb_sesudah;
+                // imgRgbMasked.src = imgPaths.rgb_masked;
 
-                imgRgbSebelum.src = `${basePath}${currentEvent.tahun}_rgb_sebelum_${cleanPrefix}.png`;
-                imgRgbSesudah.src = `${basePath}${currentEvent.tahun}_rgb_sesudah_${cleanPrefix}.png`;
-                imgRgbMasked.src = `${basePath}${currentEvent.tahun}_rgb_masked_${cleanPrefix}.png`;
+                // 4. Download links
+                dlSarSebelum.href = imgPaths.sar_sebelum;
+                dlSarSebelum.download = `${tahun}_sar_sebelum_${cleanPrefix}.png`;
+                dlSarSesudah.href = imgPaths.sar_sesudah;
+                dlSarSesudah.download = `${tahun}_sar_sesudah_${cleanPrefix}.png`;
+                dlSarMasked.href = imgPaths.sar_masked;
+                dlSarMasked.download = `${tahun}_sar_masked_${cleanPrefix}.png`;
+                // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+                // dlRgbSebelum.href = imgPaths.rgb_sebelum;
+                // dlRgbSebelum.download = `${tahun}_rgb_sebelum_${cleanPrefix}.png`;
+                // dlRgbSesudah.href = imgPaths.rgb_sesudah;
+                // dlRgbSesudah.download = `${tahun}_rgb_sesudah_${cleanPrefix}.png`;
+                // dlRgbMasked.href = imgPaths.rgb_masked;
+                // dlRgbMasked.download = `${tahun}_rgb_masked_${cleanPrefix}.png`;
             }
         }
 
-        // Event Listeners Kontrol Filter
+        // Download all button
+        document.getElementById('btn-download-all').addEventListener('click', function () {
+            if (!currentEvent) return;
+            const skala = selSkala.value;
+            const prefixSkala = (skala === 'fokus') ? currentEvent.daerah : currentEvent.kode_raya;
+            const cleanPrefix = prefixSkala.replace(/\s+/g, '');
+            const tahun = currentEvent.tahun;
+
+            const files = [
+                `${tahun}_sar_sebelum_${cleanPrefix}.png`,
+                `${tahun}_sar_sesudah_${cleanPrefix}.png`,
+                `${tahun}_sar_masked_${cleanPrefix}.png`,
+                // [DINONAKTIFKAN] - Sentinel-2 RGB sementara tidak digunakan
+                // `${tahun}_rgb_sebelum_${cleanPrefix}.png`,
+                // `${tahun}_rgb_sesudah_${cleanPrefix}.png`,
+                // `${tahun}_rgb_masked_${cleanPrefix}.png`
+            ];
+
+            files.forEach((filename, index) => {
+                setTimeout(() => {
+                    const a = document.createElement('a');
+                    a.href = basePath + filename;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }, index * 500); // Stagger download
+            });
+        });
+
+        // Event Listeners
         selTahun.addEventListener('change', updateKejadian);
         selKejadian.addEventListener('change', updateVisual);
         selSkala.addEventListener('change', updateVisual);
@@ -294,7 +629,16 @@
             });
         });
 
-        window.addEventListener('DOMContentLoaded', initTahun);
+        window.addEventListener('DOMContentLoaded', () => {
+            initTahun();
+            setTimeout(() => { detailMap.invalidateSize(); }, 200);
+            setTimeout(() => { detailMap.invalidateSize(); }, 500);
+            setTimeout(() => { detailMap.invalidateSize(); }, 1000);
+        });
+
+        window.addEventListener('resize', () => {
+            detailMap.invalidateSize();
+        });
     </script>
 </body>
 

@@ -1,5 +1,7 @@
 flask
 earthengine-api
+geemap
+folium
 requests
 numpy
 pillow

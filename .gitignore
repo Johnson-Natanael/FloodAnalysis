@@ -1,0 +1,42 @@
+# ============================================
+# Python
+# ============================================
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# ============================================
+# OS Files
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================
+# IDE
+# ============================================
+.vscode/
+.idea/
+.agents/
+
+# ============================================
+# Aset Gambar Besar (Citra Satelit Ekspor)
+# File-file ini bisa direproduksi ulang via skrip GEE
+# ============================================
+imageExport/imageBandungRaya/
+imageExport/imageBerita/
+web_app/static/assets/predictions/
+
+# ============================================
+# Data backup / file sementara
+# ============================================
+web_app/data_banjir_historis_lama.csv
+*.log
+*.tmp
+
+# Catatan internal dan dokumen kemajuan
+catatan/

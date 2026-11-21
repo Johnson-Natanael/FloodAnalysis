@@ -1,11 +1,15 @@
 * {
     font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
 }
 
 body {
     margin: 0px;
 }
 
+/* ================================================================
+   Layout Utama & Sidebar
+   ================================================================ */
 .container {
     display: flex;
     flex-direction: column;
@@ -14,13 +18,19 @@ body {
 
 .header {
     padding: 12px;
-    height: 20px;
+    height: 44px;
     text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sidebar-content {
     display: flex;
     flex: 1;
+    overflow: hidden;
 }
 
 .sidebar {
@@ -28,6 +38,7 @@ body {
     color: white;
     padding: 10px;
     width: 270px;
+    flex-shrink: 0;
 }
 
 .sidebar-group {
@@ -35,124 +46,395 @@ body {
     padding: 12px;
     column-gap: 10px;
     cursor: pointer;
+    align-items: center;
+    border-radius: 5px;
+    transition: background-color 0.2s;
 }
 
 .sidebar-group.active {
     background-color: #808D92;
-    border-radius: 5px;
 }
 
 .sidebar-group:hover:not(.active) {
-    background-color: #1e5382; /* Efek menyala sedikit saat di-hover kursor */
-    border-radius: 5px;
+    background-color: #1e5382;
 }
 
 .main-content {
     width: 100%;
     display: flex;
-    text-align: center;
     border-top: 1px solid #808D92;
+    overflow: hidden;
 }
 
-.input{
+/* ================================================================
+   Side Container (Form Filter & Laporan)
+   ================================================================ */
+.side-container {
+    padding: 15px;
+    width: 290px;
+    flex-shrink: 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    height: calc(100vh - 44px);
+}
+
+.input {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    gap: 5px;
-    margin-top: 10px;
+    gap: 10px;
 }
 
-.start-year, .end-year{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.side-container {
-    padding: 10px;
-    width: 270px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.select-date{
-    width: 130px;
+.select-date {
+    width: 100%;
     position: relative;
-    padding: 5px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    color: #000000;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
 }
 
-.submit{
+.submit {
     background-color: #103A5E;
     color: #ebebeb;
-    border-radius: 10px;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit:hover {
+    background-color: #1e5382;
+}
+
+/* ================================================================
+   Peta Interaktif Leaflet Container
+   ================================================================ */
+.images-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    overflow-y: auto;
+    height: calc(100vh - 44px);
+    box-sizing: border-box;
+}
+
+#map-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+#flood-map {
+    width: 100%;
+    height: 100%;
+}
+
+#flood-map img {
+    max-width: none !important;
+    max-height: none !important;
+}
+
+.map-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #ccc;
+    color: #999;
+    padding: 20px;
+}
+
+.map-placeholder i {
+    font-size: 64px;
+    margin-bottom: 15px;
+    color: #ccc;
+}
+
+.map-placeholder p {
+    font-size: 14px;
+    text-align: center;
+    max-width: 320px;
+    line-height: 1.6;
+}
+
+/* ================================================================
+   Kontrol Peta (Layer Info, Legenda, Opacity, Loading)
+   ================================================================ */
+.leaflet-control-layers {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    font-size: 11px !important;
+    padding: 10px 14px !important;
+    border: 1px solid #ddd !important;
+    min-width: 210px;
+}
+
+.leaflet-control-layers-overlays label {
+    margin-bottom: 4px !important;
+}
+
+/* Layer Control Dynamic Sliders (Model 3) */
+.layer-slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 0 6px 20px;
+    font-size: 10px;
+    color: #555;
+    animation: fadeInSlider 0.2s ease-in-out;
+}
+
+@keyframes fadeInSlider {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.layer-slider-wrap input[type="range"] {
+    flex: 1;
+    height: 4px;
+    accent-color: #0f52ba;
+    cursor: pointer;
+    margin: 0;
+    min-width: 80px;
+}
+
+.layer-slider-wrap .slider-pct {
+    min-width: 28px;
+    text-align: right;
+    font-weight: 600;
+    color: #103A5E;
+    font-size: 10px;
+}
+
+.layer-info {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.6;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    max-width: 220px;
+    border: 1px solid #ddd;
+}
+
+.layer-info h4 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 3px 0;
+}
+
+.legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    flex-shrink: 0;
+}
+
+.opacity-control {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 14px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 11px;
+    min-width: 180px;
+    border: 1px solid #ddd;
+}
+
+.opacity-control h4 {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
+}
+
+.opacity-control input[type='range'] {
+    width: 100%;
+    margin: 4px 0;
+    accent-color: #0f52ba;
     cursor: pointer;
 }
 
-.button-satelit {
-    display: flex;
-    font-size: small;
-    column-gap: 5px;
-    align-items: center;
-    justify-content: center;
+.opacity-control .opacity-value {
+    text-align: right;
+    font-size: 11px;
+    color: #666;
 }
 
-.hidden {
+.admin-label {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #999;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.map-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
     display: none;
 }
 
-.button-satelit span.active {
-    background-color: #103A5E !important;
-    color: white !important;
+.spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #0f52ba;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
 }
 
-.button-satelit span {
-    margin-top: 10px;
-    background-color: #ebebeb;
-    color: #103A5E;
-    border-radius: 20px;
-    padding: 5px 20px 5px 20px;
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ================================================================
+   Map container — harus tetap proporsional saat scroll
+   ================================================================ */
+#map-container {
+    flex-shrink: 0;
+}
+
+/* ================================================================
+   Section Title (Perbandingan Visual)
+   ================================================================ */
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 20px 0 10px 0;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #0f52ba;
+    text-align: left;
+    flex-shrink: 0;
+}
+
+/* ================================================================
+   Side-by-Side Comparison Grid
+   ================================================================ */
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.comparison-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.comparison-card h4 {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    color: #444;
+    font-weight: 600;
+}
+
+.comparison-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    object-fit: contain;
+    border: 1px solid #eee;
     cursor: pointer;
+    transition: transform 0.2s;
 }
 
-.images-container {
-    flex: 1;
-    width: auto;
+.comparison-card img:hover {
+    transform: scale(1.02);
 }
 
-.titleResult{
-    display: flex;
-    flex-direction: column;
+.border-highlight {
+    border: 2px solid #0f52ba !important;
+}
+
+/* Tombol download individual */
+.btn-download {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid black;
-}
-
-.button-result {
-    display: flex;
-    font-size: small;
-    column-gap: 5px;
-    align-items: center;
-    justify-content: center;
-    margin-top: 7px;
-}
-
-.button-result span.active {
-    background-color: #103A5E !important;
-    color: white !important;
-}
-
-.button-result span {
-    background-color: #ebebeb;
-    color: #103A5E;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px 20px 5px 20px;
+    gap: 4px;
+    margin-top: 6px;
+    padding: 4px 10px;
+    font-size: 10px;
+    background: #103A5E;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
+    font-family: 'Poppins';
+    text-decoration: none;
+    transition: background 0.2s;
 }
 
-.predict-img{
-    height: 550px;
+.btn-download:hover {
+    background: #1e5382;
+}
+
+/* Tombol download semua */
+.btn-download-all {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 12px;
+    background: #0f52ba;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-weight: 500;
+    margin-bottom: 15px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.btn-download-all:hover {
+    background: #103A5E;
 }
